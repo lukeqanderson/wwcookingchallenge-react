@@ -2,14 +2,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { Form, Button } from "react-bootstrap";
-import "./Login.css";
+import "./Signup.css";
 
-const Login = (props: { setRoute: Function; showHidePassword: Function }) => {
+const Signup = (props: { setRoute: Function; showHidePassword: Function }) => {
   return (
-    <div id="loginParent">
+    <div id="signupParent">
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <h1 id="loginTitle">Login</h1>
+          <h1 id="signupTitle">Sign Up</h1>
           <Form.Label className="formLabel">Email</Form.Label>
           <Form.Control
             className="inputText"
@@ -42,18 +42,43 @@ const Login = (props: { setRoute: Function; showHidePassword: Function }) => {
             </span>
           </div>
         </Form.Group>
-        <Button id="loginButton" variant="success" type="submit">
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label className="formLabel">Confirm Password</Form.Label>
+          <div id="passwordContainer">
+            <Form.Control
+              className="password inputText"
+              type="password"
+              placeholder="Password"
+            ></Form.Control>
+            <span
+              className="showHideIcons"
+              onClick={() => {
+                props.showHidePassword(1);
+              }}
+            >
+              <FontAwesomeIcon
+                className="showEye"
+                icon={faEye}
+              ></FontAwesomeIcon>
+              <FontAwesomeIcon
+                className="hideEye d-none"
+                icon={faEyeSlash}
+              ></FontAwesomeIcon>
+            </span>
+          </div>
+        </Form.Group>
+        <Button id="signupButton" variant="success" type="submit">
           Submit
         </Button>
         <div id="registrationParent">
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <span
             id="registrationButton"
             onClick={() => {
-              props.setRoute("signup");
+              props.setRoute("login");
             }}
           >
-            sign up here!
+            login here!
           </span>
         </div>
       </Form>
@@ -61,4 +86,4 @@ const Login = (props: { setRoute: Function; showHidePassword: Function }) => {
   );
 };
 
-export default Login;
+export default Signup;
