@@ -1,0 +1,22 @@
+#welcomeContainer {
+    margin-left: 20vw;
+    margin-right: 20vw;
+}
+
+#welcomeText {
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    text-align: center;
+}
+
+#buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10vh;
+}
+
+.authButton {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: 10rem;
+}

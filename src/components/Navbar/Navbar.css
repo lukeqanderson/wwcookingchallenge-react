@@ -1,0 +1,8 @@
+.nav-button:hover {
+    cursor: pointer;
+}
+
+.selected {
+    color: black;
+    text-decoration: underline;
+}
