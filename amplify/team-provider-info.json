@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-wwcookingchallenge-dev-105818-authRole",
+      "UnauthRoleArn": "arn:aws:iam::454986769538:role/amplify-wwcookingchallenge-dev-105818-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::454986769538:role/amplify-wwcookingchallenge-dev-105818-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
+      "UnauthRoleName": "amplify-wwcookingchallenge-dev-105818-unauthRole",
+      "StackName": "amplify-wwcookingchallenge-dev-105818",
+      "StackId": "arn:aws:cloudformation:us-east-1:454986769538:stack/amplify-wwcookingchallenge-dev-105818/8a130540-baea-11ee-a672-0e63e355ef67",
+      "AmplifyAppId": "d2xnccphmfk0t"
+    },
+    "categories": {
+      "auth": {
+        "wwcookingchallengef6751baf": {}
+      }
+    }
+  }
+}

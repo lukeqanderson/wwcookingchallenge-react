@@ -9,6 +9,10 @@
     text-align: center;
 }
 
+#welcomeNoteText {
+    font-style: italic;
+}
+
 #buttonContainer {
     display: flex;
     justify-content: center;
@@ -16,7 +20,5 @@
 }
 
 .authButton {
-    margin-left: 1vw;
-    margin-right: 1vw;
-    width: 10rem;
+    font-size: 2rem;
 }

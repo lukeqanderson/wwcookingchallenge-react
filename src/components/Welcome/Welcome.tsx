@@ -1,7 +1,7 @@
 import React from "react";
 import "./Welcome.css";
 
-const Welcome = (props: { setRoute: Function }) => {
+const Welcome = (props: { setSelectedNavButton: Function }) => {
   return (
     <div id="welcomeContainer">
       <h4 id="welcomeText">
@@ -15,25 +15,23 @@ const Welcome = (props: { setRoute: Function }) => {
         will allow you to remove countries as we don't want external factors
         like cost and availability of ingredients to limit completing the
         challenge successfully.
+        <br></br>
+        <br></br>
+        <span id="welcomeNoteText">
+          &#91; Note: In order to ensure enough enough information can be found
+          online to complete the challenge, countries with a population under
+          100,000 will be excluded... Sorry Liechtenstein :&#40; ... &#93;
+        </span>
       </h4>
       <div id="buttonContainer">
         <button
           type="button"
           className="btn btn-light authButton"
           onClick={() => {
-            props.setRoute("login");
+            props.setSelectedNavButton("login", 1);
           }}
         >
-          Login
-        </button>
-        <button
-          type="button"
-          className="btn btn-dark authButton"
-          onClick={() => {
-            props.setRoute("signup");
-          }}
-        >
-          Sign Up
+          Log in / Sign up
         </button>
       </div>
     </div>

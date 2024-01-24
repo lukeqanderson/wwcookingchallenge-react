@@ -46,16 +46,6 @@ const NavbarPreauth = (props: { setSelectedNavButton: Function }) => {
               Login
             </a>
           </li>
-          <li className="nav-item nav-button active">
-            <a
-              className="nav-link"
-              onClick={() => {
-                props.setSelectedNavButton("signup", 2);
-              }}
-            >
-              Sign Up
-            </a>
-          </li>
         </ul>
       </div>
     </nav>
