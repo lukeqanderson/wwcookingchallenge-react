@@ -5,10 +5,11 @@ const AuthenticatedApp = (props: {
   setRoute: Function;
   setSelectedNavButton: Function;
   signOut: any;
+  user: Object;
 }) => {
   useEffect(() => {
     props.setSelectedNavButton("home", 0);
-  }, []);
+  }, [props]);
 
   const signOut = () => {
     props.setRoute("welcome");

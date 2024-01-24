@@ -26,7 +26,7 @@ const App = () => {
 
   return (
     <div>
-      {route == "login" || route == "welcome" ? (
+      {route === "login" || route === "welcome" ? (
         <NavbarPreauth setSelectedNavButton={setSelectedNavButton} />
       ) : (
         <Navbar setSelectedNavButton={setSelectedNavButton} />
@@ -34,7 +34,7 @@ const App = () => {
       <span>
         <h1 id="title">World Wide Cooking Challenge</h1>
       </span>
-      {route != "welcome" ? (
+      {route !== "welcome" ? (
         <div className="homeContent">
           <Authenticator loginMechanisms={["email"]}>
             {({ signOut, user }: any) => (
@@ -44,6 +44,7 @@ const App = () => {
                     setRoute={setRoute}
                     setSelectedNavButton={setSelectedNavButton}
                     signOut={signOut}
+                    user={user}
                   ></AuthenticatedApp>
                 </main>
               </div>

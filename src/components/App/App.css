@@ -4,7 +4,7 @@
     font-size: 3rem;
     padding-left: 5vw;
     padding-right: 5vw;
-    padding-top: 10vh;
+    padding-top: 2vh;
 }
 @media only screen and (max-width: 800px) {
     #title {
@@ -12,6 +12,6 @@
     }
 }
 .homeContent{
-    padding-top: 10vh;
+    padding-top: 5vh;
     padding-bottom: 10vh;
 }
