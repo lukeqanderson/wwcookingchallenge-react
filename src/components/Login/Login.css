@@ -1,8 +1,0 @@
-#loginParent {
-    width: 40%;
-}
-@media only screen and (max-width: 800px) {
-    #loginParent {
-        width: 80%;
-    }
-}

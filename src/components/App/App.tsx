@@ -4,27 +4,23 @@ import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "../../aws-exports";
-import Login from "../Login/Login";
 import Welcome from "../Welcome/Welcome";
 import NavbarPreauth from "../Navbar/NavbarPreauth";
 import Navbar from "../Navbar/Navbar";
+import AuthenticatedApp from "../AuthenticatedApp/AuthenticatedApp";
 Amplify.configure(awsExports);
 
 const App = () => {
   const [route, setRoute] = useState("welcome");
-  const [navButtonIndex, setNavButtonIndex] = useState(0);
 
   // navbar and routing functions
   const setSelectedNavButton = (newRoute: string, i: number) => {
-    let toActivateNavButton = document.getElementsByClassName("nav-link")[
-      i
-    ] as HTMLElement;
-    let prevActivatedNavButton = document.getElementsByClassName("nav-link")[
-      navButtonIndex
-    ] as HTMLElement;
-    prevActivatedNavButton!.classList.remove("selected");
-    toActivateNavButton!.classList.add("selected");
-    setNavButtonIndex(i);
+    let navButtons = document.getElementsByClassName("nav-link");
+    for (let i = 0; i < navButtons.length; i++) {
+      let navButton = navButtons[i] as HTMLElement;
+      navButton!.classList.remove("selected");
+    }
+    navButtons[i]!.classList.add("selected");
     setRoute(newRoute);
   };
 
@@ -38,13 +34,19 @@ const App = () => {
       <span>
         <h1 id="title">World Wide Cooking Challenge</h1>
       </span>
-      {route == "login" ? (
-        <div className="centerScreen">
+      {route != "welcome" ? (
+        <div className="homeContent">
           <Authenticator loginMechanisms={["email"]}>
             {({ signOut, user }: any) => (
-              <main>
-                <button onClick={signOut}>Sign out</button>
-              </main>
+              <div>
+                <main>
+                  <AuthenticatedApp
+                    setRoute={setRoute}
+                    setSelectedNavButton={setSelectedNavButton}
+                    signOut={signOut}
+                  ></AuthenticatedApp>
+                </main>
+              </div>
             )}
           </Authenticator>
         </div>

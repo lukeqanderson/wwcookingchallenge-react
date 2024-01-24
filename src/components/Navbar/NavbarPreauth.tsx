@@ -4,14 +4,14 @@ import "./Navbar.css";
 const NavbarPreauth = (props: { setSelectedNavButton: Function }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
-      <a
+      <button
         className="navbar-brand nav-button"
         onClick={() => {
           props.setSelectedNavButton("welcome", 0);
         }}
       >
         &nbsp;&nbsp;WW Cooking Challenge
-      </a>
+      </button>
       <button
         className="navbar-toggler"
         type="button"
@@ -27,24 +27,24 @@ const NavbarPreauth = (props: { setSelectedNavButton: Function }) => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item nav-button active">
-            <a
+            <button
               className="nav-link selected"
               onClick={() => {
                 props.setSelectedNavButton("welcome", 0);
               }}
             >
-              Home
-            </a>
+              Welcome
+            </button>
           </li>
           <li className="nav-item nav-button active">
-            <a
+            <button
               className="nav-link"
               onClick={() => {
                 props.setSelectedNavButton("login", 1);
               }}
             >
-              Login
-            </a>
+              Sign In
+            </button>
           </li>
         </ul>
       </div>

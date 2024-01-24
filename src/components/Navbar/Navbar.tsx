@@ -4,14 +4,14 @@ import "./Navbar.css";
 const Navbar = (props: { setSelectedNavButton: Function }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
-      <a
+      <button
         className="navbar-brand nav-button"
         onClick={() => {
-          props.setSelectedNavButton("welcome", 0);
+          props.setSelectedNavButton("home", 0);
         }}
       >
         &nbsp;&nbsp;WW Cooking Challenge
-      </a>
+      </button>
       <button
         className="navbar-toggler"
         type="button"
@@ -27,34 +27,14 @@ const Navbar = (props: { setSelectedNavButton: Function }) => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item nav-button active">
-            <a
+            <button
               className="nav-link selected"
               onClick={() => {
-                props.setSelectedNavButton("item1", 0);
+                props.setSelectedNavButton("home", 0);
               }}
             >
               Home
-            </a>
-          </li>
-          <li className="nav-item nav-button active">
-            <a
-              className="nav-link"
-              onClick={() => {
-                props.setSelectedNavButton("item2", 1);
-              }}
-            >
-              Login
-            </a>
-          </li>
-          <li className="nav-item nav-button active">
-            <a
-              className="nav-link"
-              onClick={() => {
-                props.setSelectedNavButton("item3", 2);
-              }}
-            >
-              Sign Up
-            </a>
+            </button>
           </li>
         </ul>
       </div>

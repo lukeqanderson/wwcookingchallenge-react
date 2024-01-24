@@ -1,3 +1,7 @@
+.navbar-brand {
+    background-color: transparent;
+    border: none;
+}
 .nav-button:hover {
     cursor: pointer;
 }

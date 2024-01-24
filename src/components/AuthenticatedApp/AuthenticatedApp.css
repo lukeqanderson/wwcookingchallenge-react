@@ -1,0 +1,7 @@
+.signOutButton {
+    position: fixed;
+    color: black;
+    top: 0.5rem;
+    right: 0;
+    border: 0;
+}
