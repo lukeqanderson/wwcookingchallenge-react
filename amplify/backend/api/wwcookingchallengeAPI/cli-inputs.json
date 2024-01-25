@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "paths": {
+    "/userdata": {
+      "name": "/userdata",
+      "lambdaFunction": "wwcookingchallengeLambda",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    }
+  }
+}

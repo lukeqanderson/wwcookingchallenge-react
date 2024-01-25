@@ -1,4 +1,20 @@
 {
+  "api": {
+    "wwcookingchallengeAPI": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "wwcookingchallengeLambda"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
     "wwcookingchallengef6751baf": {
       "customAuth": false,
@@ -25,6 +41,31 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
+    }
+  },
+  "function": {
+    "wwcookingchallengeLambda": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_wwcookingchallengeLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "wwcookingchallengeLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_wwcookingchallengeLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "wwcookingchallengeLambda"
+        }
+      ]
     }
   }
 }
