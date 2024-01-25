@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
@@ -8,10 +8,23 @@ import Welcome from "../Welcome/Welcome";
 import NavbarPreauth from "../Navbar/NavbarPreauth";
 import Navbar from "../Navbar/Navbar";
 import AuthenticatedApp from "../AuthenticatedApp/AuthenticatedApp";
+import { getCurrentUser } from "aws-amplify/auth";
 Amplify.configure(awsExports);
 
 const App = () => {
   const [route, setRoute] = useState("welcome");
+
+  useEffect(() => {
+    const checkIsSignedIn = async () => {
+      try {
+        await getCurrentUser();
+        setSelectedNavButton("Home", 0);
+      } catch {
+        setSelectedNavButton("welcome", 0);
+      }
+    };
+    checkIsSignedIn();
+  }, []);
 
   // navbar and routing functions
   const setSelectedNavButton = (newRoute: string, i: number) => {
