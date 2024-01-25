@@ -35,7 +35,7 @@ const AuthenticatedApp = (props: {
       });
       const response = await restOperation.response;
       const data = await response.body.json();
-      console.log("GET call succeeded: ", data);
+      console.log(data);
     } catch (error) {
       console.log("GET call failed: ", error);
     }

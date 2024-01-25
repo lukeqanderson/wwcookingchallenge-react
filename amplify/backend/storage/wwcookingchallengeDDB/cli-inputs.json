@@ -1,0 +1,14 @@
+{
+  "resourceName": "wwcookingchallengeDDB",
+  "tableName": "wwcookingchallengeDDB",
+  "partitionKey": {
+    "fieldName": "username",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "country",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

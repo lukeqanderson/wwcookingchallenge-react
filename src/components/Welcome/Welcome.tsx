@@ -31,7 +31,7 @@ const Welcome = (props: { setSelectedNavButton: Function }) => {
             props.setSelectedNavButton("login", 1);
           }}
         >
-          Log in / Sign up
+          Get Started!
         </button>
       </div>
     </div>

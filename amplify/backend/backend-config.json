@@ -46,6 +46,17 @@
   "function": {
     "wwcookingchallengeLambda": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "wwcookingchallengeDDB"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -66,6 +77,12 @@
           "resourceName": "wwcookingchallengeLambda"
         }
       ]
+    }
+  },
+  "storage": {
+    "wwcookingchallengeDDB": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }
