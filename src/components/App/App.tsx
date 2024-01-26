@@ -6,7 +6,7 @@ import "@aws-amplify/ui-react/styles.css";
 import awsExports from "../../aws-exports";
 import Welcome from "../Welcome/Welcome";
 import NavbarPreauth from "../Navbar/NavbarPreauth";
-import Navbar from "../Navbar/Navbar";
+import NavbarAuth from "../Navbar/NavbarAuth";
 import AuthenticatedApp from "../AuthenticatedApp/AuthenticatedApp";
 import { getCurrentUser } from "aws-amplify/auth";
 Amplify.configure(awsExports);
@@ -42,7 +42,7 @@ const App = () => {
       {route === "login" || route === "welcome" ? (
         <NavbarPreauth setSelectedNavButton={setSelectedNavButton} />
       ) : (
-        <Navbar setSelectedNavButton={setSelectedNavButton} />
+        <NavbarAuth setSelectedNavButton={setSelectedNavButton} />
       )}
       <span>
         <h1 id="title">World Wide Cooking Challenge</h1>
@@ -58,6 +58,7 @@ const App = () => {
                     setSelectedNavButton={setSelectedNavButton}
                     signOut={signOut}
                     user={user}
+                    route={route}
                   ></AuthenticatedApp>
                 </main>
               </div>

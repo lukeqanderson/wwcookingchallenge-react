@@ -1,7 +1,40 @@
-.navbar-brand {
-    background-color: transparent;
-    border: none;
+.navbar {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    z-index: 1;
 }
+
+.navContainer {
+    margin: 0;
+    width: 100vw;
+    justify-content:left !important;
+}
+
+.navbar-brand {
+    border: none;
+    padding: 0;
+}
+
+.nav-link {
+    padding: 0;
+}
+
+.signInButton{
+    position: fixed;
+    top: 0.6rem;
+    right: 0.75rem;
+    border: 0;
+}
+
+.navHamburgerMenu {
+    border: none;
+    height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .nav-button:hover {
     cursor: pointer;
 }

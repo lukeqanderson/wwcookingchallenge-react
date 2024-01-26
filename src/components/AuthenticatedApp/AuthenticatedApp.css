@@ -1,7 +1,8 @@
 .signOutButton {
+    z-index: 2;
     position: fixed;
-    color: black;
-    top: 0.5rem;
-    right: 0;
+    top: 0.6rem;
+    right: 0.75rem;
     border: 0;
+    padding: 0;
 }

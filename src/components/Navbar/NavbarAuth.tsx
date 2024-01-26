@@ -2,7 +2,7 @@ import React from "react";
 import "./Navbar.css";
 import { Container, Nav, Navbar } from "react-bootstrap";
 
-const NavbarPreauth = (props: { setSelectedNavButton: Function }) => {
+const NavbarAuth = (props: { setSelectedNavButton: Function }) => {
   return (
     <>
       <Navbar className="navbar bg-body-tertiary fixed-top" expand="lg">
@@ -14,7 +14,7 @@ const NavbarPreauth = (props: { setSelectedNavButton: Function }) => {
           <Navbar.Brand
             className="navbar-brand nav-button"
             onClick={() => {
-              props.setSelectedNavButton("welcome", 0);
+              props.setSelectedNavButton("home", 0);
             }}
           >
             &nbsp;&nbsp;WW Cooking Challenge
@@ -24,25 +24,17 @@ const NavbarPreauth = (props: { setSelectedNavButton: Function }) => {
               <Nav.Link
                 className="nav-link selected"
                 onClick={() => {
-                  props.setSelectedNavButton("welcome", 0);
+                  props.setSelectedNavButton("home", 0);
                 }}
               >
-                Welcome
+                Home
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
-        <Nav.Link
-          className="nav-link signInButton"
-          onClick={() => {
-            props.setSelectedNavButton("login", 1);
-          }}
-        >
-          Sign In
-        </Nav.Link>
       </Navbar>
     </>
   );
 };
 
-export default NavbarPreauth;
+export default NavbarAuth;
