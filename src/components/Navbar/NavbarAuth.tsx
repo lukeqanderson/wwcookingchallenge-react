@@ -5,7 +5,11 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 const NavbarAuth = (props: { setSelectedNavButton: Function }) => {
   return (
     <>
-      <Navbar className="navbar bg-body-tertiary fixed-top" expand="lg">
+      <Navbar
+        data-bs-theme="dark"
+        className="navbar bg-body-tertiary fixed-top"
+        expand="lg"
+      >
         <Container className="navContainer">
           <Navbar.Toggle
             className="navHamburgerMenu"

@@ -18,7 +18,7 @@ const App = () => {
     const checkIsSignedIn = async () => {
       try {
         await getCurrentUser();
-        setSelectedNavButton("Home", 0);
+        setSelectedNavButton("home", 0);
       } catch {
         setSelectedNavButton("welcome", 0);
       }

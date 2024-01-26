@@ -5,3 +5,8 @@
     align-items: center;
     text-align: center;
 }
+
+.newChallengeButton {
+    margin-top: 5vh;
+    font-size: 2rem;
+}

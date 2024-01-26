@@ -20,7 +20,7 @@ const Welcome = (props: { setSelectedNavButton: Function }) => {
         <span id="welcomeNoteText">
           &#91; Note: In order to ensure enough enough information can be found
           online to complete the challenge, countries with a population under
-          100,000 will be excluded... Sorry Liechtenstein :&#40; ... &#93;
+          100,000 will be excluded &#93;
         </span>
       </h4>
       <div id="buttonContainer">

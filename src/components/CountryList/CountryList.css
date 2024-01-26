@@ -1,0 +1,53 @@
+.countryListContainer {
+    margin: auto;
+    width: 80vw;
+}
+
+.countryList {
+    height: max(60vh,240px);
+    border-radius: 10px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.totalCountryText {
+    text-align: center;
+}
+
+.countryList::-webkit-scrollbar {
+  display: none;
+}
+
+.flagImageContainer {
+    height: 64px;
+}
+
+.countryItemContainer {
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 2px;
+}
+
+.countryItemText{
+    height: 64px;
+    line-height: 64px;
+    text-align: center;
+}
+
+.countryItemContainer:hover {
+    cursor: pointer;
+    filter: brightness(95%);
+}
+
+.countryItemContainerSelected{
+    background-color: #ACFFD5;
+}
+
+.beginChallengeButton {
+    margin-top: 2vh;
+    width: 20vw;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 2rem;
+}

@@ -1,8 +1,13 @@
 .signOutButton {
+    color: #9FA2A4;
     z-index: 2;
     position: fixed;
     top: 0.6rem;
     right: 0.75rem;
     border: 0;
     padding: 0;
+}
+
+.signOutButton:hover {
+    color: white;
 }

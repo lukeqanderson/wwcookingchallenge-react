@@ -8,10 +8,16 @@ const NewChallengeMessage = (props: { setRoute: Function }) => {
         It appears you don't currently have an active challenge.
       </h2>
       <br></br>
-      <h2>
-        Click the button below to choose which countries to include in your
-        challenge to get started on your cooking journey!
-      </h2>
+      <h2>Click the button below to start a new challenge!</h2>
+      <button
+        type="button"
+        className="btn btn-light newChallengeButton"
+        onClick={() => {
+          props.setRoute("countryList");
+        }}
+      >
+        New Challenge
+      </button>
     </div>
   );
 };

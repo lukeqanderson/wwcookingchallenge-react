@@ -3,6 +3,7 @@ import { get } from "aws-amplify/api";
 import { getCurrentUser, fetchAuthSession } from "aws-amplify/auth";
 import "./AuthenticatedApp.css";
 import NewChallengeMessage from "../NewChallenge/NewChallengeMessage";
+import CountryList from "../CountryList/CountryList";
 
 const AuthenticatedApp = (props: {
   setRoute: Function;
@@ -15,8 +16,10 @@ const AuthenticatedApp = (props: {
   const [currentCountry, setCurrentCountry] = useState("");
 
   useEffect(() => {
-    props.setSelectedNavButton("home", 0);
     getChallengeData();
+    if (props.route === "login") {
+      props.setRoute("home");
+    }
   }, [props]);
 
   async function getChallengeData() {
@@ -60,10 +63,17 @@ const AuthenticatedApp = (props: {
 
   return (
     <div>
-      {isObjectEmpty(currentChallenge) === true ? (
+      {props.route === "home" && isObjectEmpty(currentChallenge) === true ? (
         <NewChallengeMessage setRoute={props.setRoute} />
-      ) : (
+      ) : props.route === "home" ? (
         <h2>has items</h2>
+      ) : props.route === "countryList" ? (
+        <CountryList
+          setCurrentChallenge={setCurrentChallenge}
+          setRoute={props.setRoute}
+        ></CountryList>
+      ) : (
+        <div></div>
       )}
       <button
         type="button"

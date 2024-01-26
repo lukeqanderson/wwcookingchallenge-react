@@ -20,6 +20,7 @@
 }
 
 .signInButton{
+    color: #9FA2A4;
     position: fixed;
     top: 0.6rem;
     right: 0.75rem;
@@ -35,11 +36,15 @@
     padding-right: 10px;
 }
 
+.nav-link:hover {
+    color: white;
+}
+
 .nav-button:hover {
     cursor: pointer;
 }
 
 .selected {
-    color: black;
+    color: white !important;
     text-decoration: underline;
 }
