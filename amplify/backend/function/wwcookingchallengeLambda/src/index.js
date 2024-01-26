@@ -15,6 +15,7 @@ const {
     DynamoDBDocumentClient,
     GetCommand,
     ScanCommand,
+    PutCommand,
 } = require("@aws-sdk/lib-dynamodb");
 
 const {
@@ -35,15 +36,34 @@ exports.handler = async (event) => {
       country:"Singapore",
     },
   });
-  const scanCommand = new ScanCommand({
-    ProjectionExpression: "#username, country, completed",
-    ExpressionAttributeNames: {"#username":username},
-    TableName: tableName,
-  });
 
   let response;
+
   if (method === "GET") {
-    response = (await docClient.send(scanCommand)).Items;
+    const scanCommand = new ScanCommand({
+      ProjectionExpression: "#username, country, completed",
+      ExpressionAttributeNames: {"#username":username},
+      TableName: tableName,
+    });
+      response = (await docClient.send(scanCommand)).Items;
+  }
+
+  if (method === "POST") {
+    response = [];
+    const body = JSON.parse(JSON.parse(event.body));
+    for (let i = 0; i < body.length; i++) {
+      if (body[i].selected === false) continue;
+      const country = body[i].name;
+      const putCommand = new PutCommand({
+        Item: {
+          username: username,
+          country: country,
+          completed: false, 
+        },
+        TableName: tableName,
+      });
+      response.push(await docClient.send(putCommand));
+    }
   }
 
   return {

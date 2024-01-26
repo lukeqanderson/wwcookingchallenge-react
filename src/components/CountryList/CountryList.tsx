@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./CountryList.css";
 import { ListGroup } from "react-bootstrap";
 import CountryListItem from "./CountryListItem";
+import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
+import { post } from "aws-amplify/api";
 
 const CountryList = (props: {
   setCurrentChallenge: Function;
@@ -59,6 +61,34 @@ const CountryList = (props: {
       });
   };
 
+  async function postChallengeData() {
+    try {
+      let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+      let username = (await getCurrentUser()).username?.toString();
+      if (authToken === undefined || username === undefined) throw Error;
+      const restOperation = post({
+        apiName: "wwcookingchallengeAPI",
+        path: "/userdata",
+        options: {
+          queryParams: {
+            username: username,
+          },
+          headers: {
+            Authorization: authToken,
+          },
+          body: JSON.stringify(countryApiList),
+        },
+      });
+      const response = await restOperation.response;
+      const data = await response.body.json();
+      if (data !== null) {
+        console.log("POST call success: ", data);
+      }
+    } catch (error) {
+      console.log("POST call failed: ", error);
+    }
+  }
+
   return (
     <div className="countryListContainer">
       <h3 className="totalCountryText">
@@ -79,7 +109,11 @@ const CountryList = (props: {
           <></>
         )}
       </ListGroup>
-      <button type="button" className="btn btn-light beginChallengeButton">
+      <button
+        type="button"
+        className="btn btn-light beginChallengeButton"
+        onClick={() => postChallengeData()}
+      >
         Begin Challenge
       </button>
     </div>
