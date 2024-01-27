@@ -14,7 +14,8 @@ Amplify Params - DO NOT EDIT *//**
 const {
     DynamoDBDocumentClient,
     GetCommand,
-    ScanCommand,
+    QueryCommand,
+    DeleteCommand,
     PutCommand,
 } = require("@aws-sdk/lib-dynamodb");
 
@@ -29,7 +30,8 @@ const tableName = "wwcookingchallengeDDB-dev";
 exports.handler = async (event) => {
   const method = event.httpMethod;
   const username = event.queryStringParameters.username;
-  const getCommand = new GetCommand({
+
+  const getCurrentCountryCommand = new GetCommand({
     TableName: tableName,
     Key: {
       username: username,
@@ -40,12 +42,16 @@ exports.handler = async (event) => {
   let response;
 
   if (method === "GET") {
-    const scanCommand = new ScanCommand({
-      ProjectionExpression: "#username, country, completed",
-      ExpressionAttributeNames: {"#username":username},
+    const queryCommand = new QueryCommand({
       TableName: tableName,
+      KeyConditionExpression: "username = :username AND country > :country",
+      ExpressionAttributeValues: {
+        ":username": username,
+        ":country": "!",
+      },
+      ConsistentRead: true,
     });
-      response = (await docClient.send(scanCommand)).Items;
+      response = (await docClient.send(queryCommand)).Items;
   }
 
   if (method === "POST") {
@@ -63,6 +69,29 @@ exports.handler = async (event) => {
         TableName: tableName,
       });
       response.push(await docClient.send(putCommand));
+    }
+  }
+
+  if (method === "DELETE") {
+    const queryCommand = new QueryCommand({
+      TableName: tableName,
+      KeyConditionExpression: "username = :username AND country > :country",
+      ExpressionAttributeValues: {
+        ":username": username,
+        ":country": "!",
+      },
+      ConsistentRead: true,
+    });
+    deleteItemArray = (await docClient.send(queryCommand)).Items;
+    for (let i = 0; i < deleteItemArray.length; i++) {
+      const deleteCommand = new DeleteCommand ({
+        TableName: tableName,
+        Key: {
+          username: username,
+          country: deleteItemArray[i].country,
+        },
+      })
+      await docClient.send(deleteCommand);
     }
   }
 

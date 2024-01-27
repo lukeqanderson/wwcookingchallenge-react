@@ -4,6 +4,7 @@ import { getCurrentUser, fetchAuthSession } from "aws-amplify/auth";
 import "./AuthenticatedApp.css";
 import NewChallengeMessage from "../NewChallenge/NewChallengeMessage";
 import CountryList from "../CountryList/CountryList";
+import Home from "../Home.tsx/Home";
 
 const AuthenticatedApp = (props: {
   setRoute: Function;
@@ -43,6 +44,7 @@ const AuthenticatedApp = (props: {
       const response = await restOperation.response;
       const data = await response.body.json();
       if (data !== null) {
+        console.log(data);
         await setCurrentChallenge(data);
       }
       setLoading(false);
@@ -70,7 +72,7 @@ const AuthenticatedApp = (props: {
       isObjectEmpty(currentChallenge) === true ? (
         <NewChallengeMessage setRoute={props.setRoute} />
       ) : props.route === "home" && loading === false ? (
-        <h2>has items</h2>
+        <Home setRoute={props.setRoute} setLoading={setLoading}></Home>
       ) : props.route === "countryList" && loading === false ? (
         <CountryList
           setCurrentChallenge={setCurrentChallenge}
