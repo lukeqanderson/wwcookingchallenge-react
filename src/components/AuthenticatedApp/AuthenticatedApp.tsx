@@ -13,6 +13,7 @@ const AuthenticatedApp = (props: {
   route: string;
 }) => {
   const [currentChallenge, setCurrentChallenge] = useState({});
+  const [loading, setLoading] = useState(true);
   const [currentCountry, setCurrentCountry] = useState("");
 
   useEffect(() => {
@@ -42,8 +43,9 @@ const AuthenticatedApp = (props: {
       const response = await restOperation.response;
       const data = await response.body.json();
       if (data !== null) {
-        setCurrentChallenge(data);
+        await setCurrentChallenge(data);
       }
+      setLoading(false);
     } catch (error) {
       console.log("GET call failed: ", error);
     }
@@ -63,17 +65,23 @@ const AuthenticatedApp = (props: {
 
   return (
     <div>
-      {props.route === "home" && isObjectEmpty(currentChallenge) === true ? (
+      {props.route === "home" &&
+      loading === false &&
+      isObjectEmpty(currentChallenge) === true ? (
         <NewChallengeMessage setRoute={props.setRoute} />
-      ) : props.route === "home" ? (
+      ) : props.route === "home" && loading === false ? (
         <h2>has items</h2>
-      ) : props.route === "countryList" ? (
+      ) : props.route === "countryList" && loading === false ? (
         <CountryList
           setCurrentChallenge={setCurrentChallenge}
           setRoute={props.setRoute}
         ></CountryList>
       ) : (
-        <div></div>
+        <div className="text-center">
+          <div className="spinner-border" role="status">
+            <span className="sr-only"></span>
+          </div>
+        </div>
       )}
       <button
         type="button"
