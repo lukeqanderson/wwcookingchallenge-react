@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "storage": {
+      "wwcookingchallengeCurrentCountryDDB": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

@@ -16,25 +16,17 @@
     "s3Key": {
       "Type": "String"
     },
-    "storagewwcookingchallengeDDBName": {
+    "storagewwcookingchallengeCurrentCountryDDBName": {
       "Type": "String",
-      "Default": "storagewwcookingchallengeDDBName"
+      "Default": "storagewwcookingchallengeCurrentCountryDDBName"
     },
-    "storagewwcookingchallengeDDBArn": {
+    "storagewwcookingchallengeCurrentCountryDDBArn": {
       "Type": "String",
-      "Default": "storagewwcookingchallengeDDBArn"
+      "Default": "storagewwcookingchallengeCurrentCountryDDBArn"
     },
-    "storagewwcookingchallengeDDBStreamArn": {
+    "storagewwcookingchallengeCurrentCountryDDBStreamArn": {
       "Type": "String",
-      "Default": "storagewwcookingchallengeDDBStreamArn"
-    },
-    "apiwwcookingchallengeAPIApiName": {
-      "Type": "String",
-      "Default": "apiwwcookingchallengeAPIApiName"
-    },
-    "apiwwcookingchallengeAPIApiId": {
-      "Type": "String",
-      "Default": "apiwwcookingchallengeAPIApiId"
+      "Default": "storagewwcookingchallengeCurrentCountryDDBStreamArn"
     }
   },
   "Conditions": {
@@ -67,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "wwcookingchallengeLambda",
+            "wwcookingchallengeCurrentCountryLambda",
             {
               "Fn::Join": [
                 "",
                 [
-                  "wwcookingchallengeLambda",
+                  "wwcookingchallengeCurrentCountryLambda",
                   "-",
                   {
                     "Ref": "env"
@@ -90,20 +82,14 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "STORAGE_WWCOOKINGCHALLENGEDDB_NAME": {
-              "Ref": "storagewwcookingchallengeDDBName"
+            "STORAGE_WWCOOKINGCHALLENGECURRENTCOUNTRYDDB_NAME": {
+              "Ref": "storagewwcookingchallengeCurrentCountryDDBName"
             },
-            "STORAGE_WWCOOKINGCHALLENGEDDB_ARN": {
-              "Ref": "storagewwcookingchallengeDDBArn"
+            "STORAGE_WWCOOKINGCHALLENGECURRENTCOUNTRYDDB_ARN": {
+              "Ref": "storagewwcookingchallengeCurrentCountryDDBArn"
             },
-            "STORAGE_WWCOOKINGCHALLENGEDDB_STREAMARN": {
-              "Ref": "storagewwcookingchallengeDDBStreamArn"
-            },
-            "API_WWCOOKINGCHALLENGEAPI_APINAME": {
-              "Ref": "apiwwcookingchallengeAPIApiName"
-            },
-            "API_WWCOOKINGCHALLENGEAPI_APIID": {
-              "Ref": "apiwwcookingchallengeAPIApiId"
+            "STORAGE_WWCOOKINGCHALLENGECURRENTCOUNTRYDDB_STREAMARN": {
+              "Ref": "storagewwcookingchallengeCurrentCountryDDBStreamArn"
             }
           }
         },
@@ -124,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "wwcookingchallengeLambdaRole032a7ce2",
+            "wwcookingchallengeLambdaRole565aeb24",
             {
               "Fn::Join": [
                 "",
                 [
-                  "wwcookingchallengeLambdaRole032a7ce2",
+                  "wwcookingchallengeLambdaRole565aeb24",
                   "-",
                   {
                     "Ref": "env"
@@ -218,36 +204,6 @@
             {
               "Effect": "Allow",
               "Action": [
-                "apigateway:POST",
-                "apigateway:PUT",
-                "apigateway:GET",
-                "apigateway:HEAD",
-                "apigateway:OPTIONS",
-                "apigateway:PATCH",
-                "apigateway:DELETE"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:apigateway:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      "::/restapis/",
-                      {
-                        "Ref": "apiwwcookingchallengeAPIApiName"
-                      },
-                      "/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
                 "dynamodb:Put*",
                 "dynamodb:Create*",
                 "dynamodb:BatchWriteItem",
@@ -267,14 +223,14 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storagewwcookingchallengeDDBArn"
+                  "Ref": "storagewwcookingchallengeCurrentCountryDDBArn"
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storagewwcookingchallengeDDBArn"
+                        "Ref": "storagewwcookingchallengeCurrentCountryDDBArn"
                       },
                       "index/*"
                     ]

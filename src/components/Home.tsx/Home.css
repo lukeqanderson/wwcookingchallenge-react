@@ -6,8 +6,24 @@
     text-align: center;
 }
 
-.deleteChallengeButton {
-    margin-top: 5vh;
+.countriesCompletedText {
+    padding-bottom: 5vh;
+}
+
+.progress {
+    margin: auto;
+    height: 6vh;
+    width: 60vw;
+}
+
+.currentCountryTextContainer {
+    margin-top: 10vh;
+}
+
+.challengeButton {
+    margin-top: 10vh;
+    margin-left: 1vw;
+    margin-right: 1vw;
     width: max(20vw, 200px);
     font-size: min(2rem, 5vw);
 }

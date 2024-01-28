@@ -19,14 +19,19 @@
       "function": {
         "wwcookingchallengeLambda": {
           "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
-          "s3Key": "amplify-builds/wwcookingchallengeLambda-43677858547035336b6a-build.zip"
+          "s3Key": "amplify-builds/wwcookingchallengeLambda-4e693052637258414b75-build.zip"
+        },
+        "wwcookingchallengeCurrentCountryLambda": {
+          "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
+          "s3Key": "amplify-builds/wwcookingchallengeCurrentCountryLambda-53355136636d4c763745-build.zip"
         }
       },
       "api": {
         "wwcookingchallengeAPI": {}
       },
       "storage": {
-        "wwcookingchallengeDDB": {}
+        "wwcookingchallengeDDB": {},
+        "wwcookingchallengeCurrentCountryDDB": {}
       }
     }
   }

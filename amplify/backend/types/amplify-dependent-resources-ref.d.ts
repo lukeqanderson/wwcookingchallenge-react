@@ -18,6 +18,13 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
+    "wwcookingchallengeCurrentCountryLambda": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "wwcookingchallengeLambda": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
@@ -27,6 +34,14 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "storage": {
+    "wwcookingchallengeCurrentCountryDDB": {
+      "Arn": "string",
+      "Name": "string",
+      "PartitionKeyName": "string",
+      "PartitionKeyType": "string",
+      "Region": "string",
+      "StreamArn": "string"
+    },
     "wwcookingchallengeDDB": {
       "Arn": "string",
       "Name": "string",

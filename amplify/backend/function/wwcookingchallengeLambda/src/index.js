@@ -1,4 +1,6 @@
 /* Amplify Params - DO NOT EDIT
+	API_WWCOOKINGCHALLENGEAPI_APIID
+	API_WWCOOKINGCHALLENGEAPI_APINAME
 	ENV
 	REGION
 	STORAGE_WWCOOKINGCHALLENGEDDB_ARN
@@ -13,7 +15,6 @@ Amplify Params - DO NOT EDIT *//**
 
 const {
     DynamoDBDocumentClient,
-    GetCommand,
     QueryCommand,
     DeleteCommand,
     PutCommand,
@@ -30,14 +31,6 @@ const tableName = "wwcookingchallengeDDB-dev";
 exports.handler = async (event) => {
   const method = event.httpMethod;
   const username = event.queryStringParameters.username;
-
-  const getCurrentCountryCommand = new GetCommand({
-    TableName: tableName,
-    Key: {
-      username: username,
-      country:"Singapore",
-    },
-  });
 
   let response;
 

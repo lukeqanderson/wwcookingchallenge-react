@@ -13,6 +13,19 @@
           "delete"
         ]
       }
+    },
+    "/currentcountry": {
+      "name": "/currentcountry",
+      "lambdaFunction": "wwcookingchallengeCurrentCountryLambda",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

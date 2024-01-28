@@ -49,7 +49,7 @@ const CountryList = (props: {
     if (countryApiList instanceof Array) {
       let countryApiListCopy = countryApiList;
       for (let i = 0; i < countryApiListCopy.length; i++) {
-        if (option == "select") {
+        if (option === "select") {
           countryApiListCopy[i].selected = true;
         } else countryApiListCopy[i].selected = false;
       }
