@@ -15,7 +15,6 @@ const CountryList = (props: {
   const [countryApiList, setCountryApiList] = useState<Object>([]);
   const [loading, setLoading] = useState(true);
   const [numberSelected, setNumberSelected] = useState(0);
-  const [filteredCountries, setFilteredCountries] = useState({});
 
   useEffect(() => {
     getCountriesFromApi();
@@ -29,12 +28,20 @@ const CountryList = (props: {
   ) => {
     const keyword = event.target.value;
     if (countryApiList instanceof Array) {
-      const searchResult = countryApiList.filter((country) => {
-        return country.name.toLowerCase().startsWith(keyword.toLowerCase());
-      });
-      setFilteredCountries(searchResult);
-    } else {
-      setFilteredCountries(countryApiList);
+      for (let i = 0; i < countryApiList.length; i++) {
+        if (
+          countryApiList[i].name.substring(0, keyword.length).toLowerCase() !==
+          keyword.toLowerCase()
+        ) {
+          document
+            .getElementsByClassName("countryItemContainer")
+            [i].classList.add("invisible");
+        } else {
+          document
+            .getElementsByClassName("countryItemContainer")
+            [i].classList.remove("invisible");
+        }
+      }
     }
   };
 
@@ -97,7 +104,6 @@ const CountryList = (props: {
         });
         if (validCountryArray.length !== 0) {
           setCountryApiList(validCountryArray);
-          setFilteredCountries(validCountryArray);
           setNumberSelected(validCountryArray.length);
         }
         console.log("GET call successful: ", data);
@@ -184,8 +190,8 @@ const CountryList = (props: {
         <></>
       )}
       <ListGroup className="countryList overflow-auto">
-        {filteredCountries instanceof Array ? (
-          filteredCountries.map((country, index) => (
+        {countryApiList instanceof Array ? (
+          countryApiList.map((country, index) => (
             <CountryListItem
               key={index}
               index={index}

@@ -8,5 +8,6 @@
 
 .deleteChallengeButton {
     margin-top: 5vh;
-    font-size: 2rem;
+    width: max(20vw, 200px);
+    font-size: min(2rem, 5vw);
 }

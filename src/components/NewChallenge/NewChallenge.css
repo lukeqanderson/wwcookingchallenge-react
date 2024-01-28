@@ -8,5 +8,6 @@
 
 .newChallengeButton {
     margin-top: 5vh;
+    font-size: min(2rem, 5vw);
     font-size: 2rem;
 }

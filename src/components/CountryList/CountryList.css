@@ -14,10 +14,13 @@
     display: flex;
     justify-content: space-between;
     text-align: right;
+    margin-bottom: 2vh;
 }
 
 .countryListUtilComponent {
-    width: 20vw;
+    width: max(30vw,400px);
+    font-size: max(0.9rem, 2vh);
+    padding-top: 1vh;
 }
 
 .selectionButton {
@@ -69,9 +72,16 @@
 
 .beginChallengeButton {
     margin-top: 2vh;
-    width: 20vw;
+    width: max(20vw, 200px);
+    font-size: min(2rem, 5vw);
     display: block;
     margin-left: auto;
     margin-right: auto;
-    font-size: 2rem;
+}
+
+.invisible {
+    visibility: hidden;
+    height: 0;
+    padding: 0;
+    margin: 0;
 }

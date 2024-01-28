@@ -36,7 +36,7 @@ const CountryListItem = (props: {
     >
       <div className="countryItemTextContainer ms-2 me-auto">
         <h4 className="countryItemText">
-          {props.index + 1}. {props.country.name}
+          &nbsp;&nbsp;&nbsp;{props.country.name}
         </h4>
       </div>
       <div className="flagImageContainer">
