@@ -1,31 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { get } from "aws-amplify/api";
 import { getCurrentUser, fetchAuthSession } from "aws-amplify/auth";
 import "./AuthenticatedApp.css";
 import NewChallengeMessage from "../NewChallenge/NewChallengeMessage";
 import CountryList from "../CountryList/CountryList";
 import Home from "../Home.tsx/Home";
+import Loading from "../Loading/Loading";
 
 const AuthenticatedApp = (props: {
   setRoute: Function;
   setSelectedNavButton: Function;
   signOut: any;
-  user: Object;
   route: string;
 }) => {
   const [currentChallenge, setCurrentChallenge] = useState({});
-  const [loading, setLoading] = useState(true);
   const [currentCountry, setCurrentCountry] = useState("");
+  const [loading, setLoading] = useState(true);
+  const authRender = useRef(0);
 
   useEffect(() => {
-    getChallengeData();
     if (props.route === "login") {
       props.setRoute("home");
     }
-  }, [props]);
+    if (authRender.current === 0) getChallengeData();
+  }, [props.route]);
 
   async function getChallengeData() {
     try {
+      authRender.current++;
       let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
       let username = (await getCurrentUser()).username?.toString();
       if (authToken === undefined || username === undefined) throw Error;
@@ -44,10 +46,10 @@ const AuthenticatedApp = (props: {
       const response = await restOperation.response;
       const data = await response.body.json();
       if (data !== null) {
-        console.log(data);
-        await setCurrentChallenge(data);
+        console.log("GET call success: ", data);
+        setLoading(false);
+        setCurrentChallenge(data);
       }
-      setLoading(false);
     } catch (error) {
       console.log("GET call failed: ", error);
     }
@@ -67,23 +69,26 @@ const AuthenticatedApp = (props: {
 
   return (
     <div>
-      {props.route === "home" &&
-      loading === false &&
-      isObjectEmpty(currentChallenge) === true ? (
+      {loading === true ? (
+        <Loading></Loading>
+      ) : props.route === "home" && isObjectEmpty(currentChallenge) === true ? (
         <NewChallengeMessage setRoute={props.setRoute} />
-      ) : props.route === "home" && loading === false ? (
-        <Home setRoute={props.setRoute} setLoading={setLoading}></Home>
-      ) : props.route === "countryList" && loading === false ? (
+      ) : props.route === "home" ? (
+        <Home
+          setRoute={props.setRoute}
+          setLoading={setLoading}
+          setCurrentChallenge={setCurrentChallenge}
+          authRender={authRender}
+        ></Home>
+      ) : props.route === "countryList" ? (
         <CountryList
+          setLoading={setLoading}
           setCurrentChallenge={setCurrentChallenge}
           setRoute={props.setRoute}
+          authRender={authRender}
         ></CountryList>
       ) : (
-        <div className="text-center">
-          <div className="spinner-border" role="status">
-            <span className="sr-only"></span>
-          </div>
-        </div>
+        <Loading></Loading>
       )}
       <button
         type="button"

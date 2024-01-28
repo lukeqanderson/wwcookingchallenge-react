@@ -4,19 +4,23 @@ import { ListGroup } from "react-bootstrap";
 import CountryListItem from "./CountryListItem";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import { post } from "aws-amplify/api";
+import Loading from "../Loading/Loading";
 
 const CountryList = (props: {
+  setLoading: Function;
   setCurrentChallenge: Function;
   setRoute: Function;
+  authRender: any;
 }) => {
   const [countryApiList, setCountryApiList] = useState<Object>([]);
+  const [loading, setLoading] = useState(true);
   const [numberSelected, setNumberSelected] = useState(0);
 
   useEffect(() => {
     getCountriesFromApi();
-    setNumberSelected(
-      countryApiList instanceof Array ? countryApiList.length : 0
-    );
+    if (countryApiList instanceof Array) {
+      setNumberSelected(countryApiList.length);
+    }
   }, []);
 
   const toggleCountrySelected = (index: number) => {
@@ -34,8 +38,10 @@ const CountryList = (props: {
     }
   };
 
-  const getCountriesFromApi = () => {
-    fetch("https://restcountries.com/v3.1/all?fields=name,cca2,population")
+  const getCountriesFromApi = async () => {
+    await fetch(
+      "https://restcountries.com/v3.1/all?fields=name,cca2,population"
+    )
       .then((response) => response.json())
       .then((data) => {
         let validCountryArray = [];
@@ -55,14 +61,19 @@ const CountryList = (props: {
           setCountryApiList(validCountryArray);
           setNumberSelected(validCountryArray.length);
         }
+        console.log("GET call successful: ", data);
+      })
+      .then(() => {
+        setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("GET call failed: ", error);
       });
   };
 
   async function postChallengeData() {
     try {
+      await setLoading(true);
       let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
       let username = (await getCurrentUser()).username?.toString();
       if (authToken === undefined || username === undefined) throw Error;
@@ -82,19 +93,28 @@ const CountryList = (props: {
       const response = await restOperation.response;
       const data = await response.body.json();
       if (data !== null) {
-        console.log("POST call success: ", data);
+        console.log("POST call successful: ", data);
+        props.authRender.current = 0;
+        props.setLoading(true);
+        props.setRoute("home");
+        setLoading(false);
       }
     } catch (error) {
       console.log("POST call failed: ", error);
     }
   }
 
-  return (
+  return loading === true ? (
+    <Loading></Loading>
+  ) : (
     <div className="countryListContainer">
-      <h3 className="totalCountryText">
-        Countries Selected: {numberSelected} /{" "}
-        {countryApiList instanceof Array ? countryApiList.length : 0}
-      </h3>
+      {countryApiList instanceof Array && countryApiList.length > 0 ? (
+        <h3 className="totalCountryText">
+          Countries Selected: {numberSelected} / {countryApiList.length}
+        </h3>
+      ) : (
+        <></>
+      )}
       <ListGroup className="countryList overflow-auto">
         {countryApiList instanceof Array ? (
           countryApiList.map((country, index) => (

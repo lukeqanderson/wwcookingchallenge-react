@@ -3,7 +3,12 @@ import "./Home.css";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import { del } from "aws-amplify/api";
 
-const Home = (props: { setRoute: Function; setLoading: Function }) => {
+const Home = (props: {
+  setRoute: Function;
+  setLoading: Function;
+  setCurrentChallenge: Function;
+  authRender: any;
+}) => {
   async function deleteChallenge() {
     try {
       props.setLoading(true);
@@ -23,7 +28,9 @@ const Home = (props: { setRoute: Function; setLoading: Function }) => {
         },
       });
       const response = await restOperation.response;
-      await props.setLoading(false);
+      props.setCurrentChallenge({});
+      props.setLoading(false);
+      props.authRender.current = 0;
       console.log("DELETE call success: ", response);
     } catch (error) {
       console.log("DELETE call failed: ", error);
