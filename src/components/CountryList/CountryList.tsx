@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CountryList.css";
-import { ListGroup } from "react-bootstrap";
+import { Form, ListGroup } from "react-bootstrap";
 import CountryListItem from "./CountryListItem";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import { post } from "aws-amplify/api";
@@ -15,6 +15,7 @@ const CountryList = (props: {
   const [countryApiList, setCountryApiList] = useState<Object>([]);
   const [loading, setLoading] = useState(true);
   const [numberSelected, setNumberSelected] = useState(0);
+  const [filteredCountries, setFilteredCountries] = useState({});
 
   useEffect(() => {
     getCountriesFromApi();
@@ -22,6 +23,44 @@ const CountryList = (props: {
       setNumberSelected(countryApiList.length);
     }
   }, []);
+
+  const filterCountriesOnSearch = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const keyword = event.target.value;
+    if (countryApiList instanceof Array) {
+      const searchResult = countryApiList.filter((country) => {
+        return country.name.toLowerCase().startsWith(keyword.toLowerCase());
+      });
+      setFilteredCountries(searchResult);
+    } else {
+      setFilteredCountries(countryApiList);
+    }
+  };
+
+  const selectOrDeselectAllCountries = (option: string) => {
+    if (countryApiList instanceof Array) {
+      let countryApiListCopy = countryApiList;
+      for (let i = 0; i < countryApiListCopy.length; i++) {
+        if (option == "select") {
+          countryApiListCopy[i].selected = true;
+        } else countryApiListCopy[i].selected = false;
+      }
+      setNumberSelected(option === "select" ? countryApiListCopy.length : 0);
+      setCountryApiList([...countryApiListCopy]);
+      for (let i = 0; i < countryApiList.length; i++) {
+        if (option === "select") {
+          document
+            .getElementsByClassName("countryItemContainer")
+            [i].classList.add("countryItemContainerSelected");
+        } else {
+          document
+            .getElementsByClassName("countryItemContainer")
+            [i].classList.remove("countryItemContainerSelected");
+        }
+      }
+    }
+  };
 
   const toggleCountrySelected = (index: number) => {
     if (countryApiList instanceof Array) {
@@ -33,7 +72,6 @@ const CountryList = (props: {
         countryApiListCopy[index].selected = true;
         setNumberSelected(numberSelected + 1);
       }
-      console.log(countryApiListCopy);
       setCountryApiList([...countryApiListCopy]);
     }
   };
@@ -59,6 +97,7 @@ const CountryList = (props: {
         });
         if (validCountryArray.length !== 0) {
           setCountryApiList(validCountryArray);
+          setFilteredCountries(validCountryArray);
           setNumberSelected(validCountryArray.length);
         }
         console.log("GET call successful: ", data);
@@ -109,15 +148,44 @@ const CountryList = (props: {
   ) : (
     <div className="countryListContainer">
       {countryApiList instanceof Array && countryApiList.length > 0 ? (
-        <h3 className="totalCountryText">
-          Countries Selected: {numberSelected} / {countryApiList.length}
-        </h3>
+        <div>
+          <div className="countryListUtilsContainer">
+            <Form.Control
+              className="countryListUtilComponent"
+              type="text"
+              onChange={filterCountriesOnSearch}
+              placeholder="Search Countries..."
+            />
+            <h4 className="countryListUtilComponent">
+              <span
+                className="selectionButton"
+                onClick={() => {
+                  selectOrDeselectAllCountries("select");
+                }}
+              >
+                Select All
+              </span>
+              &nbsp; &nbsp; &nbsp;
+              <span
+                className="selectionButton"
+                onClick={() => {
+                  selectOrDeselectAllCountries("deselect");
+                }}
+              >
+                Deselect All
+              </span>
+            </h4>
+          </div>
+          <h3 className="totalCountryText">
+            Countries Selected: {numberSelected} / {countryApiList.length}
+          </h3>
+        </div>
       ) : (
         <></>
       )}
       <ListGroup className="countryList overflow-auto">
-        {countryApiList instanceof Array ? (
-          countryApiList.map((country, index) => (
+        {filteredCountries instanceof Array ? (
+          filteredCountries.map((country, index) => (
             <CountryListItem
               key={index}
               index={index}
@@ -131,7 +199,7 @@ const CountryList = (props: {
       </ListGroup>
       <button
         type="button"
-        className="btn btn-light beginChallengeButton"
+        className="btn btn-dark beginChallengeButton"
         onClick={() => postChallengeData()}
       >
         Begin Challenge

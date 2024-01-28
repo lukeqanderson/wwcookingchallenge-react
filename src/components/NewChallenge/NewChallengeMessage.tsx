@@ -11,7 +11,7 @@ const NewChallengeMessage = (props: { setRoute: Function }) => {
       <h2>Click the button below to start a new challenge!</h2>
       <button
         type="button"
-        className="btn btn-light newChallengeButton"
+        className="btn btn-dark newChallengeButton"
         onClick={() => {
           props.setRoute("countryList");
         }}

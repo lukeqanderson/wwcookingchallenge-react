@@ -26,7 +26,7 @@ const Welcome = (props: { setSelectedNavButton: Function }) => {
       <div id="buttonContainer">
         <button
           type="button"
-          className="btn btn-light authButton"
+          className="btn btn-dark authButton"
           onClick={() => {
             props.setSelectedNavButton("login", 1);
           }}

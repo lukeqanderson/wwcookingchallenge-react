@@ -10,6 +10,25 @@
     scrollbar-width: none;  /* Firefox */
 }
 
+.countryListUtilsContainer {
+    display: flex;
+    justify-content: space-between;
+    text-align: right;
+}
+
+.countryListUtilComponent {
+    width: 20vw;
+}
+
+.selectionButton {
+    text-decoration: underline;
+}
+
+.selectionButton:hover {
+    opacity: 80%;
+    cursor: pointer;
+}
+
 .totalCountryText {
     text-align: center;
 }
@@ -36,7 +55,12 @@
 
 .countryItemContainer:hover {
     cursor: pointer;
-    filter: brightness(95%);
+    color: white;
+    background-color: #444444;
+}
+
+.countryItemContainerSelected:hover {
+    background-color: #02740B!important;
 }
 
 .countryItemContainerSelected{
