@@ -1,0 +1,56 @@
+.confirmationBoxBackground {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: black;
+    background-size: cover;
+    opacity: 70%;
+    backdrop-filter: blur(10px);
+}
+
+.confirmationBoxContainer {
+    position: absolute;
+    top: 0;
+    background-color: white;
+    z-index: 4;
+    opacity: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 50vw;
+    border: 2px solid black;
+    margin-top: 20vh;
+    margin-left: 25vw;
+}
+
+.card-title {
+    margin-bottom: 5vh;
+    margin-top: 10vh;
+}
+
+.confirmCancelButton {
+    margin-bottom: 10vh;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: max(6vw, 80px);
+    font-size: min(1.5rem, 3vw);
+}
+
+.closeButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 0.5vw;
+    margin-top: 0.2vw;
+    height: 20px;
+    color: gray;
+}
+
+.closeButton:hover {
+    cursor: pointer;
+    opacity: 70%;
+}

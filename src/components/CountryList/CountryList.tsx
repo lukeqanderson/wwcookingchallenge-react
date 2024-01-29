@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./CountryList.css";
 import { Form, ListGroup } from "react-bootstrap";
 import CountryListItem from "./CountryListItem";
@@ -15,9 +15,13 @@ const CountryList = (props: {
   const [countryApiList, setCountryApiList] = useState<Object>([]);
   const [loading, setLoading] = useState(true);
   const [numberSelected, setNumberSelected] = useState(0);
+  const rendered = useRef(0);
 
   useEffect(() => {
-    getCountriesFromApi();
+    rendered.current++;
+    if (rendered.current === 1) {
+      getCountriesFromApi();
+    }
     if (countryApiList instanceof Array) {
       setNumberSelected(countryApiList.length);
     }

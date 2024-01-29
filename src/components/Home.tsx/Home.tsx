@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Home.css";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import { del } from "aws-amplify/api";
+import ConfirmationBox from "../ConfirmationBox/ConfirmationBox";
 
 const Home = (props: {
   setRoute: Function;
@@ -16,6 +17,7 @@ const Home = (props: {
   currentCountry: any;
 }) => {
   const [totalCompleted, setTotalCompleted] = useState(0);
+  const [confirmationRoute, setConfirmationRoute] = useState("");
 
   useEffect(() => {
     if (props.currentChallenge instanceof Array) {
@@ -59,53 +61,77 @@ const Home = (props: {
     }
   }
 
+  const cancelChallengeDeletion = () => {
+    setConfirmationRoute("");
+    document.getElementsByTagName("html")[0].style.overflow = "auto";
+  };
+
+  const confirmChallengeDeletion = () => {
+    deleteChallenge();
+    setConfirmationRoute("");
+    document.getElementsByTagName("html")[0].style.overflow = "auto";
+  };
+
   return (
-    <div id="homeContainer">
-      <h4 className="countriesCompletedText">
-        {totalCompleted} / {props.currentChallenge.length} countries completed
-      </h4>
-      <div className="progress">
-        <div className="progress-bar bg-success" role="progressbar"></div>
-      </div>
-      <h4>{totalCompleted / props.currentChallenge.length}%</h4>
-      {props.isObjectEmpty(props.currentCountry) === true ? (
-        <div className="currentCountryTextContainer">
-          <h4>No current country</h4>
-          <h4>hit "roll country" to randomly select a new country</h4>
-        </div>
+    <>
+      {confirmationRoute === "confirmDelete" ? (
+        <ConfirmationBox
+          confirmationMessage={
+            "Are you sure you want to delete the current challenge?"
+          }
+          onCancel={cancelChallengeDeletion}
+          onConfirm={confirmChallengeDeletion}
+        ></ConfirmationBox>
       ) : (
-        <div className="currentCountryTextContainer">
-          <h4>Current country: {props.currentCountry.country}</h4>
-        </div>
+        <></>
       )}
-      <button
-        type="button"
-        className="btn btn-secondary challengeButton"
-        onClick={() => {
-          deleteChallenge();
-        }}
-      >
-        Edit Challenge
-      </button>
-      <button
-        type="button"
-        className="btn btn-dark challengeButton"
-        onClick={() => {
-          props.rollCountry();
-        }}
-      >
-        Roll Country
-      </button>
-      <button
-        type="button"
-        className="btn btn-danger challengeButton"
-        onClick={() => {
-          deleteChallenge();
-        }}
-      >
-        Delete Challenge
-      </button>
-    </div>
+      <div id="homeContainer">
+        <h4 className="countriesCompletedText">
+          {totalCompleted} / {props.currentChallenge.length} countries completed
+        </h4>
+        <div className="progress">
+          <div className="progress-bar bg-success" role="progressbar"></div>
+        </div>
+        <h4>{totalCompleted / props.currentChallenge.length}%</h4>
+        {props.isObjectEmpty(props.currentCountry) === true ? (
+          <div className="currentCountryTextContainer">
+            <h4>No current country</h4>
+            <h4>hit "roll country" to randomly select a new country</h4>
+          </div>
+        ) : (
+          <div className="currentCountryTextContainer">
+            <h4>Current country: {props.currentCountry.country}</h4>
+          </div>
+        )}
+        <button
+          type="button"
+          className="btn btn-secondary challengeButton"
+          onClick={() => {
+            deleteChallenge();
+          }}
+        >
+          Edit Challenge
+        </button>
+        <button
+          type="button"
+          className="btn btn-dark challengeButton"
+          onClick={() => {
+            props.rollCountry();
+          }}
+        >
+          Roll Country
+        </button>
+        <button
+          type="button"
+          className="btn btn-danger challengeButton"
+          onClick={() => {
+            setConfirmationRoute("confirmDelete");
+          }}
+        >
+          Delete Challenge
+        </button>
+      </div>
+    </>
   );
 };
 
