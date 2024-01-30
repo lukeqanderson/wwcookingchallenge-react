@@ -6,7 +6,7 @@ import NewChallengeMessage from "../NewChallenge/NewChallengeMessage";
 import CountryList from "../CountryList/CountryList";
 import Home from "../Home.tsx/Home";
 import Loading from "../Loading/Loading";
-import EditChallenge from "../Edit Challenge/EditChallenge";
+import EditChallenge from "../EditChallenge/EditChallenge";
 
 const AuthenticatedApp = (props: {
   setRoute: Function;
@@ -28,6 +28,34 @@ const AuthenticatedApp = (props: {
       getChallengeData();
     }
   }, [props.route]);
+
+  async function deleteChallenge() {
+    try {
+      setLoading(true);
+      let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+      let username = (await getCurrentUser()).username?.toString();
+      if (authToken === undefined || username === undefined) throw Error;
+      const restOperation = del({
+        apiName: "wwcookingchallengeAPI",
+        path: "/userdata",
+        options: {
+          queryParams: {
+            username: username,
+          },
+          headers: {
+            Authorization: authToken,
+          },
+        },
+      });
+      const response = await restOperation.response;
+      await setCurrentChallenge({});
+      await deleteCurrentCountry();
+      await setLoading(false);
+      console.log("DELETE call success: ", response);
+    } catch (error) {
+      console.log("DELETE call failed: ", error);
+    }
+  }
 
   async function getCurrentCountry() {
     try {
@@ -195,6 +223,7 @@ const AuthenticatedApp = (props: {
           deleteCurrentCountry={deleteCurrentCountry}
           setChallengeCreated={props.setChallengeCreated}
           setSelectedNavButton={props.setSelectedNavButton}
+          deleteChallenge={deleteChallenge}
           authRender={authRender}
           currentChallenge={currentChallenge}
           currentCountry={currentCountry}
@@ -208,7 +237,14 @@ const AuthenticatedApp = (props: {
           authRender={authRender}
         ></CountryList>
       ) : props.route === "edit" ? (
-        <EditChallenge currentChallenge={currentChallenge}></EditChallenge>
+        <EditChallenge
+          setLoading={setLoading}
+          currentChallenge={currentChallenge}
+          setCurrentChallenge={setCurrentChallenge}
+          setSelectedNavButton={props.setSelectedNavButton}
+          deleteChallenge={deleteChallenge}
+          authRender={authRender}
+        ></EditChallenge>
       ) : props.route === "country" ? (
         <></>
       ) : (

@@ -53,11 +53,12 @@ exports.handler = async (event) => {
     for (let i = 0; i < body.length; i++) {
       if (body[i].selected === false) continue;
       const country = body[i].name;
+      const completed = body[i].completed;
       const putCommand = new PutCommand({
         Item: {
           username: username,
           country: country,
-          completed: false, 
+          completed: completed, 
         },
         TableName: tableName,
       });

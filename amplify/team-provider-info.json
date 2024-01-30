@@ -19,7 +19,7 @@
       "function": {
         "wwcookingchallengeLambda": {
           "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
-          "s3Key": "amplify-builds/wwcookingchallengeLambda-4e693052637258414b75-build.zip"
+          "s3Key": "amplify-builds/wwcookingchallengeLambda-37767735337a65447a2b-build.zip"
         },
         "wwcookingchallengeCurrentCountryLambda": {
           "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
-import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
-import { del } from "aws-amplify/api";
 import ConfirmationBox from "../ConfirmationBox/ConfirmationBox";
+import { ProgressBar } from "react-bootstrap";
 
 const Home = (props: {
   setRoute: Function;
@@ -14,6 +13,7 @@ const Home = (props: {
   deleteCurrentCountry: Function;
   setSelectedNavButton: Function;
   setChallengeCreated: Function;
+  deleteChallenge: Function;
   authRender: any;
   currentChallenge: any;
   currentCountry: any;
@@ -34,41 +34,13 @@ const Home = (props: {
     }
   }, [props.currentChallenge]);
 
-  async function deleteChallenge() {
-    try {
-      await props.setLoading(true);
-      let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      let username = (await getCurrentUser()).username?.toString();
-      if (authToken === undefined || username === undefined) throw Error;
-      const restOperation = del({
-        apiName: "wwcookingchallengeAPI",
-        path: "/userdata",
-        options: {
-          queryParams: {
-            username: username,
-          },
-          headers: {
-            Authorization: authToken,
-          },
-        },
-      });
-      const response = await restOperation.response;
-      await props.setCurrentChallenge({});
-      await props.deleteCurrentCountry();
-      await props.setLoading(false);
-      console.log("DELETE call success: ", response);
-    } catch (error) {
-      console.log("DELETE call failed: ", error);
-    }
-  }
-
   const cancelChallengeDeletion = () => {
     setConfirmationRoute("");
     document.getElementsByTagName("html")[0].style.overflow = "auto";
   };
 
   const confirmChallengeDeletion = () => {
-    deleteChallenge();
+    props.deleteChallenge();
     props.setChallengeCreated(false);
     setConfirmationRoute("");
     document.getElementsByTagName("html")[0].style.overflow = "auto";
@@ -92,9 +64,14 @@ const Home = (props: {
           {totalCompleted} / {props.currentChallenge.length} countries completed
         </h4>
         <div className="progress">
-          <div className="progress-bar bg-success" role="progressbar"></div>
+          <ProgressBar
+            variant="success"
+            now={(totalCompleted / props.currentChallenge.length) * 100}
+          ></ProgressBar>
         </div>
-        <h4>{totalCompleted / props.currentChallenge.length}%</h4>
+        <h4>
+          {((totalCompleted / props.currentChallenge.length) * 100).toFixed(2)}%
+        </h4>
         {props.isObjectEmpty(props.currentCountry) === true ? (
           <div className="currentCountryTextContainer">
             <h4>No current country</h4>

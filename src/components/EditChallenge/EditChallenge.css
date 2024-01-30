@@ -1,23 +1,24 @@
-.countryListContainer {
+.editCountryListContainer {
     margin: auto;
     width: 80vw;
+    text-align: center;
 }
 
-.countryList {
+.editCountryList {
     height: max(60vh,240px);
     border-radius: 10px;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
 
-.countryListUtilsContainer {
+.editCountryListUtilsContainer {
     display: flex;
     justify-content: space-between;
     text-align: right;
     margin-bottom: 2vh;
 }
 
-.countryListUtilComponent {
+.editCountryListUtilComponent {
     width: max(30vw,400px);
     font-size: max(0.9rem, 2vh);
     padding-top: 1vh;
@@ -36,7 +37,7 @@
     text-align: center;
 }
 
-.countryList::-webkit-scrollbar {
+.editCountryList::-webkit-scrollbar {
   display: none;
 }
 
@@ -44,7 +45,7 @@
     height: 64px;
 }
 
-.countryItemContainer {
+.editCountryItemContainer {
     border: none;
     border-radius: 10px;
     width: 90%;
@@ -55,31 +56,43 @@
     background-color: #b4b3b3;
 }
 
-.countryItemText{
-    height: 64px;
-    line-height: 64px;
+.editCountryItemText{
     text-align: left;
 }
 
-.countryItemContainer:hover {
+.completeIncompleteText {
+    font-size: 1rem;
+    text-align: left;
+    text-decoration: underline;
+}
+
+.completeIncompleteText:hover {
+    cursor: pointer;
+    opacity: 80%;
+}
+
+.editCountryItemContainer:hover {
     cursor: pointer;
     filter: brightness(95%);
 }
 
-.countryItemContainerSelected{
+.editCountryItemContainerSelected {
     box-shadow: 1px 1px 1px 1px rgba(50, 50, 50, 0.8) !important;
     border: 1px solid black !important;
     background-color: white !important;
     color: black !important;
 }
 
-.beginChallengeButton {
-    margin-top: 2vh;
+.editCountryItemContainerCompleted {
+    background-color: #c3ffb1 !important;
+}
+
+.editButton {
+    margin-top: 10vh;
+    margin-left: 1vw;
+    margin-right: 1vw;
     width: max(20vw, 200px);
     font-size: min(2rem, 5vw);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .invisible {
