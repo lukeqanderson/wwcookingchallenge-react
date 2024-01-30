@@ -2,7 +2,10 @@ import React from "react";
 import "./Navbar.css";
 import { Container, Nav, Navbar } from "react-bootstrap";
 
-const NavbarAuth = (props: { setSelectedNavButton: Function }) => {
+const NavbarAuth = (props: {
+  setSelectedNavButton: Function;
+  challengeCreated: Boolean;
+}) => {
   return (
     <>
       <Navbar
@@ -33,6 +36,28 @@ const NavbarAuth = (props: { setSelectedNavButton: Function }) => {
               >
                 Home
               </Nav.Link>
+              {props.challengeCreated === true ? (
+                <>
+                  <Nav.Link
+                    className="nav-link"
+                    onClick={() => {
+                      props.setSelectedNavButton("country", 1);
+                    }}
+                  >
+                    Country
+                  </Nav.Link>
+                  <Nav.Link
+                    className="nav-link"
+                    onClick={() => {
+                      props.setSelectedNavButton("edit", 2);
+                    }}
+                  >
+                    Edit
+                  </Nav.Link>
+                </>
+              ) : (
+                <></>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

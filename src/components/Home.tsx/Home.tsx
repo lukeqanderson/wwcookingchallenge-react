@@ -12,6 +12,8 @@ const Home = (props: {
   isObjectEmpty: Function;
   rollCountry: Function;
   deleteCurrentCountry: Function;
+  setSelectedNavButton: Function;
+  setChallengeCreated: Function;
   authRender: any;
   currentChallenge: any;
   currentCountry: any;
@@ -20,18 +22,17 @@ const Home = (props: {
   const [confirmationRoute, setConfirmationRoute] = useState("");
 
   useEffect(() => {
+    const calculateTotalCompleted = () => {
+      let total = 0;
+      for (let i = 0; i < props.currentChallenge.length; i++) {
+        if (props.currentChallenge[i].completed === true) total++;
+      }
+      return total;
+    };
     if (props.currentChallenge instanceof Array) {
       setTotalCompleted(calculateTotalCompleted());
     }
-  }, []);
-
-  const calculateTotalCompleted = () => {
-    let total = 0;
-    for (let i = 0; i < props.currentChallenge.length; i++) {
-      if (props.currentChallenge[i].completed === true) total++;
-    }
-    return total;
-  };
+  }, [props.currentChallenge]);
 
   async function deleteChallenge() {
     try {
@@ -68,6 +69,7 @@ const Home = (props: {
 
   const confirmChallengeDeletion = () => {
     deleteChallenge();
+    props.setChallengeCreated(false);
     setConfirmationRoute("");
     document.getElementsByTagName("html")[0].style.overflow = "auto";
   };
@@ -107,7 +109,7 @@ const Home = (props: {
           type="button"
           className="btn btn-secondary challengeButton"
           onClick={() => {
-            deleteChallenge();
+            props.setSelectedNavButton("edit", 2);
           }}
         >
           Edit Challenge

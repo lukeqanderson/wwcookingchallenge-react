@@ -6,12 +6,14 @@ import NewChallengeMessage from "../NewChallenge/NewChallengeMessage";
 import CountryList from "../CountryList/CountryList";
 import Home from "../Home.tsx/Home";
 import Loading from "../Loading/Loading";
+import EditChallenge from "../Edit Challenge/EditChallenge";
 
 const AuthenticatedApp = (props: {
   setRoute: Function;
   setSelectedNavButton: Function;
   signOut: any;
   route: string;
+  setChallengeCreated: Function;
 }) => {
   const [currentChallenge, setCurrentChallenge] = useState({});
   const [currentCountry, setCurrentCountry] = useState({});
@@ -119,7 +121,7 @@ const AuthenticatedApp = (props: {
       const remainingCountries = currentChallenge.filter((country) => {
         return country.completed === false;
       });
-      const randomCountryIndex = Math.round(
+      const randomCountryIndex = Math.floor(
         remainingCountries.length * Math.random()
       );
       const username = (await getCurrentUser()).username?.toString();
@@ -156,6 +158,7 @@ const AuthenticatedApp = (props: {
       if (data !== null) {
         console.log("GET call success: ", data);
         setLoading(false);
+        if (!isObjectEmpty(data)) props.setChallengeCreated(true);
         setCurrentChallenge(data);
       }
     } catch (error) {
@@ -190,6 +193,8 @@ const AuthenticatedApp = (props: {
           isObjectEmpty={isObjectEmpty}
           rollCountry={rollCountry}
           deleteCurrentCountry={deleteCurrentCountry}
+          setChallengeCreated={props.setChallengeCreated}
+          setSelectedNavButton={props.setSelectedNavButton}
           authRender={authRender}
           currentChallenge={currentChallenge}
           currentCountry={currentCountry}
@@ -198,9 +203,14 @@ const AuthenticatedApp = (props: {
         <CountryList
           setLoading={setLoading}
           setCurrentChallenge={setCurrentChallenge}
+          setChallengeCreated={props.setChallengeCreated}
           setRoute={props.setRoute}
           authRender={authRender}
         ></CountryList>
+      ) : props.route === "edit" ? (
+        <EditChallenge currentChallenge={currentChallenge}></EditChallenge>
+      ) : props.route === "country" ? (
+        <></>
       ) : (
         <Loading></Loading>
       )}

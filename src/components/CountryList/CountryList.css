@@ -47,7 +47,12 @@
 .countryItemContainer {
     border: none;
     border-radius: 10px;
-    margin-bottom: 2px;
+    width: 90%;
+    margin-left: 5%;
+    margin-bottom: 4px;
+    box-shadow: 1px 1px 1px 1px rgba(50, 50, 50, 0.8);
+    color: rgb(114, 114, 114); 
+    background-color: #b4b3b3;
 }
 
 .countryItemText{
@@ -58,16 +63,13 @@
 
 .countryItemContainer:hover {
     cursor: pointer;
-    color: white;
-    background-color: #444444;
-}
-
-.countryItemContainerSelected:hover {
-    background-color: #02740B!important;
+    filter: brightness(95%);
 }
 
 .countryItemContainerSelected{
-    background-color: #ACFFD5;
+    border: 1px solid black !important;
+    background-color: white !important;
+    color: black !important;
 }
 
 .beginChallengeButton {

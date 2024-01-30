@@ -15,6 +15,7 @@ Amplify.configure(awsExports);
 const App = () => {
   const [route, setRoute] = useState("welcome");
   const [loading, setLoading] = useState(true);
+  const [challengeCreated, setChallengeCreated] = useState(false);
 
   useEffect(() => {
     const checkIsSignedIn = async () => {
@@ -46,7 +47,10 @@ const App = () => {
       {route === "login" || route === "welcome" ? (
         <NavbarPreauth setSelectedNavButton={setSelectedNavButton} />
       ) : (
-        <NavbarAuth setSelectedNavButton={setSelectedNavButton} />
+        <NavbarAuth
+          setSelectedNavButton={setSelectedNavButton}
+          challengeCreated={challengeCreated}
+        />
       )}
       <span>
         <h1 id="title">World Wide Cooking Challenge</h1>
@@ -62,6 +66,7 @@ const App = () => {
                     setSelectedNavButton={setSelectedNavButton}
                     signOut={signOut}
                     route={route}
+                    setChallengeCreated={setChallengeCreated}
                   ></AuthenticatedApp>
                 </main>
               </div>

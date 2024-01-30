@@ -10,6 +10,7 @@ const CountryList = (props: {
   setLoading: Function;
   setCurrentChallenge: Function;
   setRoute: Function;
+  setChallengeCreated: Function;
   authRender: any;
 }) => {
   const [countryApiList, setCountryApiList] = useState<Object>([]);
@@ -121,35 +122,42 @@ const CountryList = (props: {
   };
 
   async function postChallengeData() {
-    try {
-      await setLoading(true);
-      let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      let username = (await getCurrentUser()).username?.toString();
-      if (authToken === undefined || username === undefined) throw Error;
-      const restOperation = post({
-        apiName: "wwcookingchallengeAPI",
-        path: "/userdata",
-        options: {
-          queryParams: {
-            username: username,
+    if (numberSelected === 0) {
+      console.log(
+        "Number of countries selected for a challenge must be at least one"
+      );
+    } else {
+      try {
+        await setLoading(true);
+        let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+        let username = (await getCurrentUser()).username?.toString();
+        if (authToken === undefined || username === undefined) throw Error;
+        const restOperation = post({
+          apiName: "wwcookingchallengeAPI",
+          path: "/userdata",
+          options: {
+            queryParams: {
+              username: username,
+            },
+            headers: {
+              Authorization: authToken,
+            },
+            body: JSON.stringify(countryApiList),
           },
-          headers: {
-            Authorization: authToken,
-          },
-          body: JSON.stringify(countryApiList),
-        },
-      });
-      const response = await restOperation.response;
-      const data = await response.body.json();
-      if (data !== null) {
-        console.log("POST call successful: ", data);
-        props.authRender.current = 0;
-        props.setLoading(true);
-        props.setRoute("home");
-        setLoading(false);
+        });
+        const response = await restOperation.response;
+        const data = await response.body.json();
+        if (data !== null) {
+          console.log("POST call successful: ", data);
+          props.authRender.current = 0;
+          props.setLoading(true);
+          props.setRoute("home");
+          setLoading(false);
+          props.setChallengeCreated(true);
+        }
+      } catch (error) {
+        console.log("POST call failed: ", error);
       }
-    } catch (error) {
-      console.log("POST call failed: ", error);
     }
   }
 

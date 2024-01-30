@@ -26,7 +26,7 @@ const ConfirmationBox = (props: {
         <div className="card-body">
           <h5 className="card-title">{props.confirmationMessage}</h5>
           <button
-            className="btn confirmCancelButton btn-success"
+            className="btn confirmCancelButton btn-dark"
             onClick={() => {
               props.onConfirm();
             }}
