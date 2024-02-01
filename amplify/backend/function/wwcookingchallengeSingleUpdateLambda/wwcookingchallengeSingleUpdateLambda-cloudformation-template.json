@@ -27,14 +27,6 @@
     "storagewwcookingchallengeDDBStreamArn": {
       "Type": "String",
       "Default": "storagewwcookingchallengeDDBStreamArn"
-    },
-    "apiwwcookingchallengeAPIApiName": {
-      "Type": "String",
-      "Default": "apiwwcookingchallengeAPIApiName"
-    },
-    "apiwwcookingchallengeAPIApiId": {
-      "Type": "String",
-      "Default": "apiwwcookingchallengeAPIApiId"
     }
   },
   "Conditions": {
@@ -67,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "wwcookingchallengeLambda",
+            "wwcookingchallengeSingleUpdateLambda",
             {
               "Fn::Join": [
                 "",
                 [
-                  "wwcookingchallengeLambda",
+                  "wwcookingchallengeSingleUpdateLambda",
                   "-",
                   {
                     "Ref": "env"
@@ -98,12 +90,6 @@
             },
             "STORAGE_WWCOOKINGCHALLENGEDDB_STREAMARN": {
               "Ref": "storagewwcookingchallengeDDBStreamArn"
-            },
-            "API_WWCOOKINGCHALLENGEAPI_APINAME": {
-              "Ref": "apiwwcookingchallengeAPIApiName"
-            },
-            "API_WWCOOKINGCHALLENGEAPI_APIID": {
-              "Ref": "apiwwcookingchallengeAPIApiId"
             }
           }
         },
@@ -124,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "wwcookingchallengeLambdaRole032a7ce2",
+            "wwcookingchallengeLambdaRole46616971",
             {
               "Fn::Join": [
                 "",
                 [
-                  "wwcookingchallengeLambdaRole032a7ce2",
+                  "wwcookingchallengeLambdaRole46616971",
                   "-",
                   {
                     "Ref": "env"

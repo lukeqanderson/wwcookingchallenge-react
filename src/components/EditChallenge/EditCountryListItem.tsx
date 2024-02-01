@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./EditChallenge.css";
 import { ListGroup } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckCircle,
+  faCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
 const EditCountryListItem = (props: {
   index: number;
@@ -14,6 +19,14 @@ const EditCountryListItem = (props: {
   toggleCountrySelected: Function;
   toggleCountryCompleted: Function;
 }) => {
+  useEffect(() => {
+    if (props.country.selected === false) {
+      let flagImage = document.getElementsByClassName("flagImage")[
+        props.index
+      ] as HTMLElement;
+      flagImage.style["opacity"] = "50%";
+    }
+  });
   const flagApiPath =
     "https://flagsapi.com/" + props.country.countryCode + "/shiny/64.png";
 
@@ -83,14 +96,24 @@ const EditCountryListItem = (props: {
         <h4 className="editCountryItemText">{props.country.name}</h4>
         {props.country.selected === true ? (
           <div>
-            <h4
-              className="completeIncompleteText"
+            <div
+              className="completeIncompleteIcon"
               onClick={(event) => {
                 toggleCompletedCountryAndListItemStyles(event, props.index);
               }}
             >
-              {props.country.completed === true ? "Incomplete" : "Complete"}
-            </h4>
+              {props.country.completed === true ? (
+                <FontAwesomeIcon
+                  className="completeIcon"
+                  icon={faCircleXmark}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  className="incompleteIcon"
+                  icon={faCheckCircle}
+                />
+              )}
+            </div>
           </div>
         ) : (
           <></>

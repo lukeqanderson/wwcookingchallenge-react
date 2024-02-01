@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "storage": {
+      "wwcookingchallengeDDB": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

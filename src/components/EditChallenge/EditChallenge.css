@@ -60,15 +60,24 @@
     text-align: left;
 }
 
-.completeIncompleteText {
-    font-size: 1rem;
+.completeIncompleteIcon {
+    font-size: 1.2rem;
     text-align: left;
     text-decoration: underline;
+    color: #5c5c5c;
+}
+
+.completeIcon {
+    color: #890000
+}
+
+.incompleteIcon {
+    color: #007311
 }
 
 .completeIncompleteText:hover {
     cursor: pointer;
-    opacity: 80%;
+    opacity: 60%;
 }
 
 .editCountryItemContainer:hover {

@@ -7,6 +7,8 @@ import CountryList from "../CountryList/CountryList";
 import Home from "../Home.tsx/Home";
 import Loading from "../Loading/Loading";
 import EditChallenge from "../EditChallenge/EditChallenge";
+import Country from "../Country/Country";
+import { render } from "@testing-library/react";
 
 const AuthenticatedApp = (props: {
   setRoute: Function;
@@ -37,7 +39,7 @@ const AuthenticatedApp = (props: {
       if (authToken === undefined || username === undefined) throw Error;
       const restOperation = del({
         apiName: "wwcookingchallengeAPI",
-        path: "/userdata",
+        path: "/userdatabatch",
         options: {
           queryParams: {
             username: username,
@@ -146,19 +148,28 @@ const AuthenticatedApp = (props: {
 
   const rollCountry = async () => {
     if (currentChallenge instanceof Array) {
+      const username = (await getCurrentUser()).username?.toString();
       const remainingCountries = currentChallenge.filter((country) => {
         return country.completed === false;
       });
+      if (remainingCountries.length === 0) {
+        setCurrentCountry({
+          username: username,
+          country: "Challenge Completed!",
+        });
+        postCurrentCountry("");
+        return;
+      }
       const randomCountryIndex = Math.floor(
         remainingCountries.length * Math.random()
       );
-      const username = (await getCurrentUser()).username?.toString();
       const country = remainingCountries[randomCountryIndex].country;
       setCurrentCountry({
         username: username,
         country: country,
       });
       postCurrentCountry(country);
+      props.setSelectedNavButton("country", 1);
     }
   };
 
@@ -171,7 +182,7 @@ const AuthenticatedApp = (props: {
       if (authToken === undefined || username === undefined) throw Error;
       const restOperation = get({
         apiName: "wwcookingchallengeAPI",
-        path: "/userdata",
+        path: "/userdatabatch",
         options: {
           queryParams: {
             username: username,
@@ -246,7 +257,11 @@ const AuthenticatedApp = (props: {
           authRender={authRender}
         ></EditChallenge>
       ) : props.route === "country" ? (
-        <></>
+        <Country
+          currentCountry={currentCountry}
+          rollCountry={rollCountry}
+          homeRender={render}
+        ></Country>
       ) : (
         <Loading></Loading>
       )}

@@ -8,6 +8,14 @@
             "Arn"
           ],
           "category": "function",
+          "resourceName": "wwcookingchallengeCurrentCountryLambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
           "resourceName": "wwcookingchallengeLambda"
         },
         {
@@ -16,7 +24,15 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "wwcookingchallengeCurrentCountryLambda"
+          "resourceName": "wwcookingchallengeSingleUpdateLambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "wwcookingchallengeCountryDescLambda"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -52,6 +68,22 @@
     }
   },
   "function": {
+    "wwcookingchallengeCountryDescLambda": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "wwcookingchallengeCountryDescDDB"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "wwcookingchallengeCurrentCountryLambda": {
       "build": true,
       "dependsOn": [
@@ -83,9 +115,41 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "wwcookingchallengeSingleUpdateLambda": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "wwcookingchallengeDDB"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
+    "AMPLIFY_function_wwcookingchallengeCountryDescLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "wwcookingchallengeCountryDescLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_wwcookingchallengeCountryDescLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "wwcookingchallengeCountryDescLambda"
+        }
+      ]
+    },
     "AMPLIFY_function_wwcookingchallengeCurrentCountryLambda_deploymentBucketName": {
       "usedBy": [
         {
@@ -117,9 +181,29 @@
           "resourceName": "wwcookingchallengeLambda"
         }
       ]
+    },
+    "AMPLIFY_function_wwcookingchallengeSingleUpdateLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "wwcookingchallengeSingleUpdateLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_wwcookingchallengeSingleUpdateLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "wwcookingchallengeSingleUpdateLambda"
+        }
+      ]
     }
   },
   "storage": {
+    "wwcookingchallengeCountryDescDDB": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "wwcookingchallengeCurrentCountryDDB": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"

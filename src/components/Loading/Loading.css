@@ -1,13 +1,27 @@
 .loadingContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 40vh;
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    bottom: 0;
+    background-color: white;
+    right: 0;
+    left: 0;
+    background-size: cover;
+    opacity: 70%;
 }
 
 .spinner-border {
     width: 6rem;
     height: 6rem;
     font-size: 2rem;
+    position: absolute;
+    top: 0;
+    z-index: 6;
+    opacity: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: calc(50vh - 3rem);
+    margin-left: calc(50vw - 3rem);
 }

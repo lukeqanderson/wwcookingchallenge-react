@@ -142,7 +142,7 @@ const CountryList = (props: {
         if (authToken === undefined || username === undefined) throw Error;
         const restOperation = post({
           apiName: "wwcookingchallengeAPI",
-          path: "/userdata",
+          path: "/userdatabatch",
           options: {
             queryParams: {
               username: username,

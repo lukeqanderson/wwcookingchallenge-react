@@ -4,21 +4,11 @@
 	STORAGE_WWCOOKINGCHALLENGEDDB_ARN
 	STORAGE_WWCOOKINGCHALLENGEDDB_NAME
 	STORAGE_WWCOOKINGCHALLENGEDDB_STREAMARN
-Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
-	API_WWCOOKINGCHALLENGEAPI_APIID
-	API_WWCOOKINGCHALLENGEAPI_APINAME
-	ENV
-	REGION
-	STORAGE_WWCOOKINGCHALLENGEDDB_ARN
-	STORAGE_WWCOOKINGCHALLENGEDDB_NAME
-	STORAGE_WWCOOKINGCHALLENGEDDB_STREAMARN
-Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
-	ENV
-	REGION
-Amplify Params - DO NOT EDIT *//**
+Amplify Params - DO NOT EDIT */
+
+/**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
-
 const {
     DynamoDBDocumentClient,
     QueryCommand,
@@ -40,26 +30,13 @@ exports.handler = async (event) => {
 
   let response;
 
-  if (method === "GET") {
-    const queryCommand = new QueryCommand({
-      TableName: tableName,
-      KeyConditionExpression: "username = :username AND country > :country",
-      ExpressionAttributeValues: {
-        ":username": username,
-        ":country": "!",
-      },
-      ConsistentRead: true,
-    });
-      response = (await docClient.send(queryCommand)).Items;
-  }
-
   if (method === "POST") {
-    response = [];
     const body = JSON.parse(JSON.parse(event.body));
-    for (let i = 0; i < body.length; i++) {
-      if (body[i].selected === false) continue;
-      const country = body[i].name;
-      const completed = body[i].completed;
+    console.log(body);
+      const country = body.country;
+      console.log(country);
+      const completed = body.completed;
+      console.log(completed);
       const putCommand = new PutCommand({
         Item: {
           username: username,
@@ -68,9 +45,9 @@ exports.handler = async (event) => {
         },
         TableName: tableName,
       });
-      response.push(await docClient.send(putCommand));
+      response = await docClient.send(putCommand);
     }
-  }
+  
 
   if (method === "DELETE") {
     const queryCommand = new QueryCommand({

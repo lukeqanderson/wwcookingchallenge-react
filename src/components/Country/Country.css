@@ -1,0 +1,23 @@
+.countryContainer {
+    margin: auto;
+    width: 80vw;
+}
+
+.countryTitle {
+    text-align: center;
+    margin-bottom: 5vh;
+}
+
+.countryDescription {
+    white-space: pre-line;
+}
+
+.challengeButtonContainer {
+    margin: auto;
+    text-align: center;
+}
+
+.aiNote {
+    font-style: italic;
+    font-weight: bold;
+}
