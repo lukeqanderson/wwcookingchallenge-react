@@ -82,33 +82,50 @@ const Home = (props: {
             <h4>Current country: {props.currentCountry.country}</h4>
           </div>
         )}
-        <button
-          type="button"
-          className="btn btn-secondary challengeButton"
-          onClick={() => {
-            props.setSelectedNavButton("edit", 2);
-          }}
-        >
-          Edit Challenge
-        </button>
-        <button
-          type="button"
-          className="btn btn-dark challengeButton"
-          onClick={() => {
-            props.rollCountry();
-          }}
-        >
-          Roll Country
-        </button>
-        <button
-          type="button"
-          className="btn btn-danger challengeButton"
-          onClick={() => {
-            setConfirmationRoute("confirmDelete");
-          }}
-        >
-          Delete Challenge
-        </button>
+        {props.currentCountry.country === "Challenge Completed!" ? (
+          <div>
+            <button
+              type="button"
+              className="btn btn-dark newChallengeButton"
+              onClick={() => {
+                props.deleteChallenge();
+                props.setRoute("countryList");
+              }}
+            >
+              New Challenge
+            </button>
+          </div>
+        ) : (
+          <div>
+            <button
+              type="button"
+              className="btn btn-secondary challengeButton"
+              onClick={() => {
+                props.setSelectedNavButton("edit", 2);
+              }}
+            >
+              Edit Challenge
+            </button>
+            <button
+              type="button"
+              className="btn btn-dark challengeButton"
+              onClick={() => {
+                props.rollCountry();
+              }}
+            >
+              Roll Country
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger challengeButton"
+              onClick={() => {
+                setConfirmationRoute("confirmDelete");
+              }}
+            >
+              Delete Challenge
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

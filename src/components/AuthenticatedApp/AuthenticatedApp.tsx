@@ -8,7 +8,7 @@ import Home from "../Home.tsx/Home";
 import Loading from "../Loading/Loading";
 import EditChallenge from "../EditChallenge/EditChallenge";
 import Country from "../Country/Country";
-import { render } from "@testing-library/react";
+import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 
 const AuthenticatedApp = (props: {
   setRoute: Function;
@@ -20,6 +20,7 @@ const AuthenticatedApp = (props: {
   const [currentChallenge, setCurrentChallenge] = useState({});
   const [currentCountry, setCurrentCountry] = useState({});
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
   const authRender = useRef(0);
 
   useEffect(() => {
@@ -80,8 +81,8 @@ const AuthenticatedApp = (props: {
       try {
         const data = await response.body.json();
         if (data !== null) {
-          setCurrentCountry(data);
-          console.log("GET call success: ", response);
+          await setCurrentCountry(data);
+          console.log("GET call success: ", data);
         }
       } catch (error) {
         console.log("GET call success: ", "undefined");
@@ -153,22 +154,23 @@ const AuthenticatedApp = (props: {
         return country.completed === false;
       });
       if (remainingCountries.length === 0) {
+        const completedTitle = "Challenge Completed!";
+        await setCurrentCountry({
+          username: username,
+          country: completedTitle,
+        });
+        postCurrentCountry(completedTitle);
+      } else {
+        const randomCountryIndex = Math.floor(
+          remainingCountries.length * Math.random()
+        );
+        const country = remainingCountries[randomCountryIndex].country;
         setCurrentCountry({
           username: username,
-          country: "Challenge Completed!",
+          country: country,
         });
-        postCurrentCountry("");
-        return;
+        postCurrentCountry(country);
       }
-      const randomCountryIndex = Math.floor(
-        remainingCountries.length * Math.random()
-      );
-      const country = remainingCountries[randomCountryIndex].country;
-      setCurrentCountry({
-        username: username,
-        country: country,
-      });
-      postCurrentCountry(country);
       props.setSelectedNavButton("country", 1);
     }
   };
@@ -199,8 +201,17 @@ const AuthenticatedApp = (props: {
         setLoading(false);
         if (!isObjectEmpty(data)) props.setChallengeCreated(true);
         setCurrentChallenge(data);
+      } else {
+        setCurrentChallenge([]);
       }
     } catch (error) {
+      await setErrorMessage(
+        "Error: Failed to retrieve challenge data. Please refresh and try again."
+      );
+      document
+        .getElementsByClassName("errorMessageContainer")[0]
+        .classList.remove("hidden");
+      setLoading(false);
       console.log("GET call failed: ", error);
     }
   }
@@ -219,11 +230,14 @@ const AuthenticatedApp = (props: {
 
   return (
     <div>
+      <ErrorMessage message={errorMessage}></ErrorMessage>
       {loading === true ? (
         <Loading></Loading>
-      ) : props.route === "home" && isObjectEmpty(currentChallenge) === true ? (
+      ) : props.route === "home" &&
+        isObjectEmpty(currentChallenge) === true &&
+        currentChallenge instanceof Array ? (
         <NewChallengeMessage setRoute={props.setRoute} />
-      ) : props.route === "home" ? (
+      ) : props.route === "home" && currentChallenge instanceof Array ? (
         <Home
           setRoute={props.setRoute}
           setLoading={setLoading}
@@ -259,11 +273,14 @@ const AuthenticatedApp = (props: {
       ) : props.route === "country" ? (
         <Country
           currentCountry={currentCountry}
+          currentChallenge={currentChallenge}
+          setCurrentChallenge={setCurrentChallenge}
           rollCountry={rollCountry}
-          homeRender={render}
+          deleteChallenge={deleteChallenge}
+          setRoute={props.setRoute}
         ></Country>
       ) : (
-        <Loading></Loading>
+        <></>
       )}
       <button
         type="button"

@@ -22,7 +22,7 @@ const EditChallenge = (props: {
   useEffect(() => {
     rendered.current++;
     if (rendered.current === 1 && props.currentChallenge instanceof Array) {
-      getCountriesFromApi();
+      getCountriesFromApi().then();
     }
   }, []);
 

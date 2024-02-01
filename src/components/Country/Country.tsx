@@ -5,9 +5,12 @@ import { get, post } from "aws-amplify/api";
 import Loading from "../Loading/Loading";
 
 const Country = (props: {
+  currentChallenge: any;
+  setCurrentChallenge: Function;
   currentCountry: any;
   rollCountry: Function;
-  homeRender: any;
+  deleteChallenge: Function;
+  setRoute: Function;
 }) => {
   const prompt =
     "write a paragraph describing the history, culture, and cooking style of " +
@@ -23,8 +26,6 @@ const Country = (props: {
     render.current++;
     if (render.current === 1 && props.currentCountry.country !== undefined) {
       getDescription();
-    } else {
-      setLoading(false);
     }
   }, []);
 
@@ -54,7 +55,6 @@ const Country = (props: {
         "No description found in db, generating from OpenAI api and saving to db."
       );
       await getApiResponseAndUpdateDb();
-      await setLoading(false);
     }
   };
 
@@ -137,13 +137,26 @@ const Country = (props: {
       const data = await response.body.json();
       if (data !== null) {
         console.log("POST call successful: ", data);
-        props.homeRender.current = 0;
+        await markComplete(props.currentCountry.country);
         await props.rollCountry();
         await setLoading(false);
       }
     } catch (error) {
       console.log("POST call failed: ", error);
     }
+  };
+
+  const markComplete = (country: string) => {
+    let currentChallengeCopy = props.currentChallenge;
+    if (currentChallengeCopy instanceof Array) {
+      for (let i = 0; i < currentChallengeCopy.length; i++) {
+        if (currentChallengeCopy[i].country === country) {
+          currentChallengeCopy[i].completed = true;
+          break;
+        }
+      }
+    }
+    props.setCurrentChallenge(currentChallengeCopy);
   };
 
   return (
@@ -153,31 +166,49 @@ const Country = (props: {
           {props.currentCountry.country !== undefined ? (
             <div>
               <h1 className="countryTitle">{props.currentCountry.country}</h1>
-              <p className="countryDescription">{apiResponse}</p>
-              <p className="aiNote">
-                All descriptions are AI generated, email lukeqanderson@gmail.com
-                if there is misinformation!
-              </p>
-              <div className="challengeButtonContainer">
-                <button
-                  type="button"
-                  className="btn btn-dark challengeButton"
-                  onClick={() => {
-                    props.rollCountry();
-                  }}
-                >
-                  Roll Country
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success challengeButton"
-                  onClick={() => {
-                    postCountryCompleted();
-                  }}
-                >
-                  Complete
-                </button>
-              </div>
+              {props.currentCountry.country !== "Challenge Completed!" ? (
+                <div>
+                  <p className="countryDescription">{apiResponse}</p>
+                  <p className="aiNote">
+                    All descriptions are AI generated, email
+                    lukeqanderson@gmail.com if there is misinformation!
+                  </p>
+                  <div className="challengeButtonContainer">
+                    <button
+                      type="button"
+                      className="btn btn-dark challengeButton"
+                      onClick={() => {
+                        props.rollCountry();
+                      }}
+                    >
+                      Roll Country
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-success challengeButton"
+                      onClick={() => {
+                        postCountryCompleted();
+                      }}
+                    >
+                      Complete
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="completedChallengeContainer">
+                  <p className="countryDescription">{apiResponse}</p>
+                  <button
+                    type="button"
+                    className="btn btn-dark newChallengeButton"
+                    onClick={() => {
+                      props.deleteChallenge();
+                      props.setRoute("countryList");
+                    }}
+                  >
+                    New Challenge
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div>

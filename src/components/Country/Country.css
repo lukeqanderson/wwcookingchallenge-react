@@ -3,6 +3,10 @@
     width: 80vw;
 }
 
+.completedChallengeContainer {
+    text-align: center;
+}
+
 .countryTitle {
     text-align: center;
     margin-bottom: 5vh;
