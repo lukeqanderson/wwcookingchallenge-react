@@ -25,7 +25,7 @@ const Country = (props: {
 
   useEffect(() => {
     render.current++;
-    if (render.current === 1 && props.currentCountry.country !== undefined) {
+    if (render.current === 1) {
       getDescription();
     }
   }, []);
@@ -51,6 +51,7 @@ const Country = (props: {
       await setApiResponse((data as any).description);
       console.log("GET call success: ", data);
       await setLoading(false);
+      render.current = 0;
     } catch (error) {
       console.log(
         "No description found in db, generating from OpenAI api and saving to db."
@@ -80,6 +81,7 @@ const Country = (props: {
             data.choices[0].message.content
           );
           console.log("Generating new description with openAI successful");
+          render.current = 0;
         });
     } catch (error) {
       console.log("Generating new description with openAI failed");
@@ -87,6 +89,7 @@ const Country = (props: {
         "Failed to generate new description with openAI. Please refresh and try again."
       );
       props.setRoute("error");
+      await setLoading(false);
     }
   };
 
@@ -112,12 +115,14 @@ const Country = (props: {
       if (data !== null) {
         console.log("POST set country description successful: ", data);
       }
+      await setLoading(false);
     } catch (error) {
       console.log("POST set country description failed: ", error);
       props.setErrorMessage(
         "Failed to send country description. Please refresh and try again."
       );
       props.setRoute("error");
+      await setLoading(false);
     }
   };
 
@@ -157,6 +162,7 @@ const Country = (props: {
         "Failed to mark country as complete. Please refresh and try again."
       );
       props.setRoute("error");
+      await setLoading(false);
     }
   };
 

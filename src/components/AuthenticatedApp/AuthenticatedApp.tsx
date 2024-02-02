@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { del, get, post } from "aws-amplify/api";
-import { getCurrentUser, fetchAuthSession } from "aws-amplify/auth";
+import { fetchAuthSession } from "aws-amplify/auth";
 import "./AuthenticatedApp.css";
 import NewChallengeMessage from "../NewChallenge/NewChallengeMessage";
 import CountryList from "../CountryList/CountryList";
@@ -75,6 +75,7 @@ const AuthenticatedApp = (props: {
           "GET current country success (empty country): ",
           "undefined"
         );
+        setLoading(false);
       }
     } catch (error) {
       console.log("GET call failed: ", error);
@@ -241,7 +242,7 @@ const AuthenticatedApp = (props: {
         },
       });
       const response = await restOperation.response;
-      await setCurrentChallenge({});
+      await setCurrentChallenge([]);
       await deleteCurrentCountry();
       await setLoading(false);
       console.log("DELETE challenge success: ", response);
