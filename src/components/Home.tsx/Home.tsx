@@ -30,7 +30,11 @@ const Home = (props: {
       return total;
     };
     if (props.currentChallenge instanceof Array) {
-      setTotalCompleted(calculateTotalCompleted());
+      const totalCompleted = calculateTotalCompleted();
+      setTotalCompleted(totalCompleted);
+      if (totalCompleted === props.currentChallenge.length) {
+        props.setCurrentCountry({ country: "Challenge Completed!" });
+      }
     }
   }, [props.currentChallenge]);
 
