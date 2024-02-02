@@ -24,7 +24,7 @@ const EditChallenge = (props: {
   useEffect(() => {
     rendered.current++;
     if (rendered.current === 1 && props.currentChallenge instanceof Array) {
-      getCountriesFromApi().then();
+      getCountriesFromApi();
     }
   }, []);
 
@@ -34,6 +34,7 @@ const EditChallenge = (props: {
     )
       .then((response) => response.json())
       .then((data) => {
+        let curNumberSelected = 0;
         let validCountryArray = [];
         for (let i = 0; i < data.length; i++) {
           if (data[i].population <= 100000) continue;
@@ -63,6 +64,7 @@ const EditChallenge = (props: {
             (newCountryObject.selected === true
               ? "editCountryItemContainerSelected "
               : "");
+          if (newCountryObject.selected === true) curNumberSelected++;
           validCountryArray.push(newCountryObject);
         }
         validCountryArray.sort((a, b) => {
@@ -70,7 +72,7 @@ const EditChallenge = (props: {
         });
         if (validCountryArray.length !== 0) {
           setCountryApiList(validCountryArray);
-          setNumberSelected(validCountryArray.length);
+          setNumberSelected(curNumberSelected);
         }
         console.log("GET all countries successful: ", data);
       })
