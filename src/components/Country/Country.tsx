@@ -11,6 +11,7 @@ const Country = (props: {
   rollCountry: Function;
   deleteChallenge: Function;
   setRoute: Function;
+  setErrorMessage: Function;
 }) => {
   const prompt =
     "write a paragraph describing the history, culture, and cooking style of " +
@@ -78,9 +79,14 @@ const Country = (props: {
             props.currentCountry.country,
             data.choices[0].message.content
           );
+          console.log("Generating new description with openAI successful");
         });
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log("Generating new description with openAI failed");
+      props.setErrorMessage(
+        "Failed to generate new description with openAI. Please refresh and try again."
+      );
+      props.setRoute("error");
     }
   };
 
@@ -104,10 +110,14 @@ const Country = (props: {
       const response = await restOperation.response;
       const data = await response.body.json();
       if (data !== null) {
-        console.log("POST call successful: ", data);
+        console.log("POST set country description successful: ", data);
       }
     } catch (error) {
-      console.log("POST call failed: ", error);
+      console.log("POST set country description failed: ", error);
+      props.setErrorMessage(
+        "Failed to send country description. Please refresh and try again."
+      );
+      props.setRoute("error");
     }
   }
 
@@ -136,13 +146,17 @@ const Country = (props: {
       const response = await restOperation.response;
       const data = await response.body.json();
       if (data !== null) {
-        console.log("POST call successful: ", data);
+        console.log("POST country completed successful: ", data);
         await markComplete(props.currentCountry.country);
         await props.rollCountry();
         await setLoading(false);
       }
     } catch (error) {
-      console.log("POST call failed: ", error);
+      console.log("POST country completed failed: ", error);
+      props.setErrorMessage(
+        "Failed to mark country as complete. Please refresh and try again."
+      );
+      props.setRoute("error");
     }
   };
 
@@ -171,7 +185,7 @@ const Country = (props: {
                   <p className="countryDescription">{apiResponse}</p>
                   <p className="aiNote">
                     All descriptions are AI generated, email
-                    lukeqanderson@gmail.com if there is misinformation!
+                    wwcookingchallenge@proton.me if there is misinformation!
                   </p>
                   <div className="challengeButtonContainer">
                     <button

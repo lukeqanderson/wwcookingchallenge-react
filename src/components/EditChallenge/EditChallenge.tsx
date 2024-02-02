@@ -12,6 +12,8 @@ const EditChallenge = (props: {
   setCurrentChallenge: Function;
   setSelectedNavButton: Function;
   deleteChallenge: Function;
+  setErrorMessage: Function;
+  setRoute: Function;
   authRender: any;
 }) => {
   const [loading, setLoading] = useState(true);
@@ -70,13 +72,17 @@ const EditChallenge = (props: {
           setCountryApiList(validCountryArray);
           setNumberSelected(validCountryArray.length);
         }
-        console.log("GET call successful: ", data);
+        console.log("GET all countries successful: ", data);
       })
       .then(() => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("GET call failed: ", error);
+        console.log("GET all countries failed: ", error);
+        props.setErrorMessage(
+          "Failed to get list of all countries. Please refresh and try again."
+        );
+        props.setRoute("error");
       });
   };
 
@@ -198,14 +204,18 @@ const EditChallenge = (props: {
         const response = await restOperation.response;
         const data = await response.body.json();
         if (data !== null) {
-          console.log("POST call successful: ", data);
+          console.log("POST save edited challenge success: ", data);
           props.authRender.current = 0;
           props.setLoading(true);
           props.setSelectedNavButton("home", 0);
           setLoading(false);
         }
       } catch (error) {
-        console.log("POST call failed: ", error);
+        console.log("POST save edited challenge failed: ", error);
+        props.setErrorMessage(
+          "Failed to save edited challenge. Please refresh and try again."
+        );
+        props.setRoute("error");
       }
     }
   }

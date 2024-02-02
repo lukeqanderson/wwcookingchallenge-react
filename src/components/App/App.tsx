@@ -18,20 +18,9 @@ const App = () => {
   const [challengeCreated, setChallengeCreated] = useState(false);
 
   useEffect(() => {
-    const checkIsSignedIn = async () => {
-      try {
-        await getCurrentUser();
-        await setSelectedNavButton("home", 0);
-        setLoading(false);
-      } catch {
-        await setSelectedNavButton("welcome", 0);
-        setLoading(false);
-      }
-    };
-    checkIsSignedIn();
+    routeOnAuthStatus();
   }, []);
 
-  // navbar and routing functions
   const setSelectedNavButton = (newRoute: string, i: number) => {
     let navButtons = document.getElementsByClassName("nav-link");
     for (let i = 0; i < navButtons.length; i++) {
@@ -40,6 +29,17 @@ const App = () => {
     }
     navButtons[i]!.classList.add("selected");
     setRoute(newRoute);
+  };
+
+  const routeOnAuthStatus = async () => {
+    try {
+      await getCurrentUser();
+      await setSelectedNavButton("home", 0);
+      setLoading(false);
+    } catch {
+      await setSelectedNavButton("welcome", 0);
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,18 +55,19 @@ const App = () => {
       <span>
         <h1 id="title">World Wide Cooking Challenge</h1>
       </span>
-      {route !== "welcome" && loading === false ? (
+      {route !== "welcome" ? (
         <div className="homeContent">
           <Authenticator loginMechanisms={["email"]}>
             {({ signOut, user }: any) => (
               <div>
                 <main>
                   <AuthenticatedApp
-                    setRoute={setRoute}
-                    setSelectedNavButton={setSelectedNavButton}
                     signOut={signOut}
                     route={route}
+                    user={user}
                     setChallengeCreated={setChallengeCreated}
+                    setRoute={setRoute}
+                    setSelectedNavButton={setSelectedNavButton}
                   ></AuthenticatedApp>
                 </main>
               </div>

@@ -20,9 +20,9 @@
 }
 
 .challengeButton {
-    margin-top: 10vh;
+    margin-top: 5vh;
     margin-left: 1vw;
     margin-right: 1vw;
     width: max(20vw, 200px);
-    font-size: min(2rem, 5vw);
+    font-size: min(1.2rem, 5vw);
 }

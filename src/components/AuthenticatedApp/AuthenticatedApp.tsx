@@ -11,59 +11,45 @@ import Country from "../Country/Country";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 
 const AuthenticatedApp = (props: {
-  setRoute: Function;
-  setSelectedNavButton: Function;
   signOut: any;
   route: string;
+  user: any;
   setChallengeCreated: Function;
+  setRoute: Function;
+  setSelectedNavButton: Function;
 }) => {
   const [currentChallenge, setCurrentChallenge] = useState({});
   const [currentCountry, setCurrentCountry] = useState({});
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const username = props.user.username?.toString();
   const authRender = useRef(0);
 
   useEffect(() => {
     if (props.route === "login") {
       props.setRoute("home");
     }
-    if (authRender.current === 0) {
-      getChallengeData();
+    authRender.current++;
+    if (authRender.current === 1) {
+      getChallenge();
     }
   }, [props.route]);
 
-  async function deleteChallenge() {
-    try {
-      setLoading(true);
-      let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      let username = (await getCurrentUser()).username?.toString();
-      if (authToken === undefined || username === undefined) throw Error;
-      const restOperation = del({
-        apiName: "wwcookingchallengeAPI",
-        path: "/userdatabatch",
-        options: {
-          queryParams: {
-            username: username,
-          },
-          headers: {
-            Authorization: authToken,
-          },
-        },
-      });
-      const response = await restOperation.response;
-      await setCurrentChallenge({});
-      await deleteCurrentCountry();
-      await setLoading(false);
-      console.log("DELETE call success: ", response);
-    } catch (error) {
-      console.log("DELETE call failed: ", error);
+  const isObjectEmpty = (object: Object) => {
+    for (let property in object) {
+      if (Object.prototype.hasOwnProperty.call(object, property)) return false;
     }
-  }
+    return true;
+  };
+
+  const signOut = () => {
+    props.setRoute("welcome");
+    props.signOut();
+  };
 
   async function getCurrentCountry() {
     try {
-      let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      let username = (await getCurrentUser()).username?.toString();
+      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
       if (authToken === undefined || username === undefined) throw Error;
       const restOperation = get({
         apiName: "wwcookingchallengeAPI",
@@ -82,20 +68,28 @@ const AuthenticatedApp = (props: {
         const data = await response.body.json();
         if (data !== null) {
           await setCurrentCountry(data);
-          console.log("GET call success: ", data);
+          console.log("GET current country success: ", data);
         }
       } catch (error) {
-        console.log("GET call success: ", "undefined");
+        console.log(
+          "GET current country success (empty country): ",
+          "undefined"
+        );
       }
     } catch (error) {
       console.log("GET call failed: ", error);
+      await setErrorMessage(
+        "Error: Failed to retrieve current country data. Please refresh and try again."
+      );
+      props.setRoute("error");
+      setLoading(false);
+      console.log("GET current country failed: ", error);
     }
   }
 
   async function deleteCurrentCountry() {
     try {
-      let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      let username = (await getCurrentUser()).username?.toString();
+      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
       if (authToken === undefined || username === undefined) throw Error;
       const restOperation = del({
         apiName: "wwcookingchallengeAPI",
@@ -111,17 +105,21 @@ const AuthenticatedApp = (props: {
       });
       const response = await restOperation.response;
       setCurrentCountry({});
-      console.log("DELETE call success: ", response);
+      console.log("DELETE current country success: ", response);
     } catch (error) {
-      console.log("DELETE call failed: ", error);
+      console.log("DELETE current country failed: ", error);
+      await setErrorMessage(
+        "Error: Failed to delete current country data. Please refresh and try again."
+      );
+      props.setRoute("error");
+      setLoading(false);
     }
   }
 
   async function postCurrentCountry(country: string) {
     try {
       setLoading(true);
-      let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      let username = (await getCurrentUser()).username?.toString();
+      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
       if (authToken === undefined || username === undefined) throw Error;
       const restOperation = post({
         apiName: "wwcookingchallengeAPI",
@@ -139,48 +137,59 @@ const AuthenticatedApp = (props: {
       const response = await restOperation.response;
       const data = await response.body.json();
       if (data !== null) {
-        console.log("POST call successful: ", data);
+        console.log("POST current country success: ", data);
         setLoading(false);
       }
     } catch (error) {
-      console.log("POST call failed: ", error);
+      console.log("POST current country failed: ", error);
+      await setErrorMessage(
+        "Error: Failed to send challenge data. Please refresh and try again."
+      );
+      props.setRoute("error");
+      setLoading(false);
     }
   }
 
   const rollCountry = async () => {
-    if (currentChallenge instanceof Array) {
-      const username = (await getCurrentUser()).username?.toString();
-      const remainingCountries = currentChallenge.filter((country) => {
-        return country.completed === false;
-      });
-      if (remainingCountries.length === 0) {
-        const completedTitle = "Challenge Completed!";
-        await setCurrentCountry({
-          username: username,
-          country: completedTitle,
+    try {
+      if (currentChallenge instanceof Array) {
+        const remainingCountries = currentChallenge.filter((country) => {
+          return country.completed === false;
         });
-        postCurrentCountry(completedTitle);
-      } else {
-        const randomCountryIndex = Math.floor(
-          remainingCountries.length * Math.random()
-        );
-        const country = remainingCountries[randomCountryIndex].country;
-        setCurrentCountry({
-          username: username,
-          country: country,
-        });
-        postCurrentCountry(country);
+        if (remainingCountries.length === 0) {
+          const completedTitle = "Challenge Completed!";
+          await setCurrentCountry({
+            username: username,
+            country: completedTitle,
+          });
+          postCurrentCountry(completedTitle);
+        } else {
+          const randomCountryIndex = Math.floor(
+            remainingCountries.length * Math.random()
+          );
+          const country = remainingCountries[randomCountryIndex].country;
+          setCurrentCountry({
+            username: username,
+            country: country,
+          });
+          postCurrentCountry(country);
+        }
+        props.setSelectedNavButton("country", 1);
       }
-      props.setSelectedNavButton("country", 1);
+    } catch (error) {
+      console.log("Roll country failed: ", error);
+      await setErrorMessage(
+        "Error: Failed to roll country. Please refresh and try again."
+      );
+      props.setRoute("error");
     }
   };
 
-  async function getChallengeData() {
+  async function getChallenge() {
     try {
+      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
       getCurrentCountry();
       authRender.current++;
-      let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      let username = (await getCurrentUser()).username?.toString();
       if (authToken === undefined || username === undefined) throw Error;
       const restOperation = get({
         apiName: "wwcookingchallengeAPI",
@@ -197,7 +206,7 @@ const AuthenticatedApp = (props: {
       const response = await restOperation.response;
       const data = await response.body.json();
       if (data !== null) {
-        console.log("GET call success: ", data);
+        console.log("GET challenge success: ", data);
         setLoading(false);
         if (!isObjectEmpty(data)) props.setChallengeCreated(true);
         setCurrentChallenge(data);
@@ -205,37 +214,59 @@ const AuthenticatedApp = (props: {
         setCurrentChallenge([]);
       }
     } catch (error) {
+      console.log("GET challenge failed: ", error);
       await setErrorMessage(
         "Error: Failed to retrieve challenge data. Please refresh and try again."
       );
-      document
-        .getElementsByClassName("errorMessageContainer")[0]
-        .classList.remove("hidden");
+      props.setRoute("error");
       setLoading(false);
-      console.log("GET call failed: ", error);
     }
   }
 
-  const isObjectEmpty = (object: Object) => {
-    for (let property in object) {
-      if (Object.prototype.hasOwnProperty.call(object, property)) return false;
+  async function deleteChallenge() {
+    try {
+      setLoading(true);
+      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+      if (authToken === undefined || username === undefined) throw Error;
+      const restOperation = del({
+        apiName: "wwcookingchallengeAPI",
+        path: "/userdatabatch",
+        options: {
+          queryParams: {
+            username: username,
+          },
+          headers: {
+            Authorization: authToken,
+          },
+        },
+      });
+      const response = await restOperation.response;
+      await setCurrentChallenge({});
+      await deleteCurrentCountry();
+      await setLoading(false);
+      console.log("DELETE challenge success: ", response);
+    } catch (error) {
+      console.log("DELETE challenge failed: ", error);
+      await setErrorMessage(
+        "Error: Failed to delete challenge data. Please refresh and try again."
+      );
+      props.setRoute("error");
+      setLoading(false);
     }
-    return true;
-  };
-
-  const signOut = () => {
-    props.setRoute("welcome");
-    props.signOut();
-  };
+  }
 
   return (
     <div>
-      <ErrorMessage message={errorMessage}></ErrorMessage>
+      {props.route === "error" ? (
+        <ErrorMessage message={errorMessage}></ErrorMessage>
+      ) : (
+        <></>
+      )}
       {loading === true ? (
         <Loading></Loading>
       ) : props.route === "home" &&
-        isObjectEmpty(currentChallenge) === true &&
-        currentChallenge instanceof Array ? (
+        currentChallenge instanceof Array &&
+        currentChallenge.length === 0 ? (
         <NewChallengeMessage setRoute={props.setRoute} />
       ) : props.route === "home" && currentChallenge instanceof Array ? (
         <Home
@@ -259,6 +290,7 @@ const AuthenticatedApp = (props: {
           setCurrentChallenge={setCurrentChallenge}
           setChallengeCreated={props.setChallengeCreated}
           setRoute={props.setRoute}
+          setErrorMessage={setErrorMessage}
           authRender={authRender}
         ></CountryList>
       ) : props.route === "edit" ? (
@@ -268,6 +300,8 @@ const AuthenticatedApp = (props: {
           setCurrentChallenge={setCurrentChallenge}
           setSelectedNavButton={props.setSelectedNavButton}
           deleteChallenge={deleteChallenge}
+          setErrorMessage={setErrorMessage}
+          setRoute={props.setRoute}
           authRender={authRender}
         ></EditChallenge>
       ) : props.route === "country" ? (
@@ -278,6 +312,7 @@ const AuthenticatedApp = (props: {
           rollCountry={rollCountry}
           deleteChallenge={deleteChallenge}
           setRoute={props.setRoute}
+          setErrorMessage={setErrorMessage}
         ></Country>
       ) : (
         <></>
