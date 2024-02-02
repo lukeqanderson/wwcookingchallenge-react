@@ -134,7 +134,7 @@ const CountryList = (props: {
       });
   };
 
-  async function postChallengeData() {
+  const postChallengeData = async () => {
     if (numberSelected === 0) {
       console.log(
         "Number of countries selected for a challenge must be at least one"
@@ -176,7 +176,7 @@ const CountryList = (props: {
         props.setRoute("error");
       }
     }
-  }
+  };
 
   return loading === true ? (
     <Loading></Loading>

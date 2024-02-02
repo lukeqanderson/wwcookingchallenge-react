@@ -177,7 +177,7 @@ const EditChallenge = (props: {
     }
   };
 
-  async function postChallengeData() {
+  const postChallengeData = async () => {
     if (numberSelected === 0) {
       console.log(
         "Number of countries selected for a challenge must be at least one"
@@ -218,7 +218,7 @@ const EditChallenge = (props: {
         props.setRoute("error");
       }
     }
-  }
+  };
 
   const onSave = async () => {
     await props.deleteChallenge();

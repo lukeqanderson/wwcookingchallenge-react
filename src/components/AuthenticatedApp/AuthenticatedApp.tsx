@@ -47,7 +47,7 @@ const AuthenticatedApp = (props: {
     props.signOut();
   };
 
-  async function getCurrentCountry() {
+  const getCurrentCountry = async () => {
     try {
       const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
       if (authToken === undefined || username === undefined) throw Error;
@@ -85,9 +85,9 @@ const AuthenticatedApp = (props: {
       setLoading(false);
       console.log("GET current country failed: ", error);
     }
-  }
+  };
 
-  async function deleteCurrentCountry() {
+  const deleteCurrentCountry = async () => {
     try {
       const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
       if (authToken === undefined || username === undefined) throw Error;
@@ -114,9 +114,9 @@ const AuthenticatedApp = (props: {
       props.setRoute("error");
       setLoading(false);
     }
-  }
+  };
 
-  async function postCurrentCountry(country: string) {
+  const postCurrentCountry = async (country: string) => {
     try {
       setLoading(true);
       const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
@@ -148,7 +148,7 @@ const AuthenticatedApp = (props: {
       props.setRoute("error");
       setLoading(false);
     }
-  }
+  };
 
   const rollCountry = async () => {
     try {
@@ -185,7 +185,7 @@ const AuthenticatedApp = (props: {
     }
   };
 
-  async function getChallenge() {
+  const getChallenge = async () => {
     try {
       const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
       getCurrentCountry();
@@ -221,9 +221,9 @@ const AuthenticatedApp = (props: {
       props.setRoute("error");
       setLoading(false);
     }
-  }
+  };
 
-  async function deleteChallenge() {
+  const deleteChallenge = async () => {
     try {
       setLoading(true);
       const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
@@ -253,7 +253,7 @@ const AuthenticatedApp = (props: {
       props.setRoute("error");
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div>

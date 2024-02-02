@@ -90,7 +90,7 @@ const Country = (props: {
     }
   };
 
-  async function postCurrentCountry(country: string, description: string) {
+  const postCurrentCountry = async (country: string, description: string) => {
     try {
       let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
       if (authToken === undefined) throw Error;
@@ -119,7 +119,7 @@ const Country = (props: {
       );
       props.setRoute("error");
     }
-  }
+  };
 
   const postCountryCompleted = async () => {
     try {

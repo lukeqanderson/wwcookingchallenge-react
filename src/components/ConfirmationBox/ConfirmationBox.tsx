@@ -12,6 +12,7 @@ const ConfirmationBox = (props: {
     window.scrollTo({ top: 0, left: 0 });
     document.getElementsByTagName("html")[0].style.overflow = "hidden";
   }, []);
+
   return (
     <div>
       <div className="confirmationBoxBackground"></div>
