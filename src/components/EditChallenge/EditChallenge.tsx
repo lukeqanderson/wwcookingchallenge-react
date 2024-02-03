@@ -19,6 +19,7 @@ const EditChallenge = (props: {
   const [loading, setLoading] = useState(true);
   const [numberSelected, setNumberSelected] = useState(0);
   const [countryApiList, setCountryApiList] = useState({});
+  const [noItemsSelected, setNoItemsSelected] = useState(false);
   const rendered = useRef(0);
 
   useEffect(() => {
@@ -180,51 +181,53 @@ const EditChallenge = (props: {
   };
 
   const postChallengeData = async () => {
-    if (numberSelected === 0) {
-      console.log(
-        "Number of countries selected for a challenge must be at least one"
-      );
-    } else {
-      try {
-        await setLoading(true);
-        let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-        let username = (await getCurrentUser()).username?.toString();
-        if (authToken === undefined || username === undefined) throw Error;
-        const restOperation = post({
-          apiName: "wwcookingchallengeAPI",
-          path: "/userdatabatch",
-          options: {
-            queryParams: {
-              username: username,
-            },
-            headers: {
-              Authorization: authToken,
-            },
-            body: JSON.stringify(countryApiList),
+    try {
+      setNoItemsSelected(false);
+      await setLoading(true);
+      let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
+      let username = (await getCurrentUser()).username?.toString();
+      if (authToken === undefined || username === undefined) throw Error;
+      const restOperation = post({
+        apiName: "wwcookingchallengeAPI",
+        path: "/userdatabatch",
+        options: {
+          queryParams: {
+            username: username,
           },
-        });
-        const response = await restOperation.response;
-        const data = await response.body.json();
-        if (data !== null) {
-          console.log("POST save edited challenge success: ", data);
-          props.authRender.current = 0;
-          props.setLoading(true);
-          props.setSelectedNavButton("home", 0);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.log("POST save edited challenge failed: ", error);
-        props.setErrorMessage(
-          "Failed to save edited challenge. Please refresh and try again."
-        );
-        props.setRoute("error");
+          headers: {
+            Authorization: authToken,
+          },
+          body: JSON.stringify(countryApiList),
+        },
+      });
+      const response = await restOperation.response;
+      const data = await response.body.json();
+      if (data !== null) {
+        console.log("POST save edited challenge success: ", data);
+        props.authRender.current = 0;
+        props.setLoading(true);
+        props.setSelectedNavButton("home", 0);
+        setLoading(false);
       }
+    } catch (error) {
+      console.log("POST save edited challenge failed: ", error);
+      props.setErrorMessage(
+        "Failed to save edited challenge. Please refresh and try again."
+      );
+      props.setRoute("error");
     }
   };
 
   const onSave = async () => {
-    await props.deleteChallenge();
-    await postChallengeData();
+    if (numberSelected == 0) {
+      console.log(
+        "Number of countries selected for a challenge must be at least one"
+      );
+      setNoItemsSelected(true);
+    } else {
+      await props.deleteChallenge();
+      await postChallengeData();
+    }
   };
 
   const onCancel = () => {
@@ -267,6 +270,11 @@ const EditChallenge = (props: {
           <h3 className="totalCountryText">
             Countries Selected: {numberSelected} / {countryApiList.length}
           </h3>
+          {noItemsSelected === true ? (
+            <h4>Error: at least one country must be selected.</h4>
+          ) : (
+            <></>
+          )}
         </div>
       ) : (
         <></>
