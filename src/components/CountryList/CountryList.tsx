@@ -17,6 +17,7 @@ const CountryList = (props: {
   const [countryApiList, setCountryApiList] = useState<Object>([]);
   const [loading, setLoading] = useState(true);
   const [numberSelected, setNumberSelected] = useState(0);
+  const [noItemsSelected, setNoItemsSelected] = useState(false);
   const rendered = useRef(0);
 
   useEffect(() => {
@@ -135,12 +136,11 @@ const CountryList = (props: {
   };
 
   const postChallengeData = async () => {
-    if (numberSelected === 0) {
-      console.log(
-        "Number of countries selected for a challenge must be at least one"
-      );
+    if (numberSelected == 0) {
+      setNoItemsSelected(true);
     } else {
       try {
+        setNoItemsSelected(false);
         await setLoading(true);
         let authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
         let username = (await getCurrentUser()).username?.toString();
@@ -232,6 +232,13 @@ const CountryList = (props: {
           <></>
         )}
       </ListGroup>
+      {noItemsSelected === true ? (
+        <h4 className="noCountrySelectedText">
+          Error: at least one country must be selected.
+        </h4>
+      ) : (
+        <></>
+      )}
       <button
         type="button"
         className="btn btn-dark beginChallengeButton"

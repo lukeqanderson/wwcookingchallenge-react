@@ -220,13 +220,12 @@ const EditChallenge = (props: {
 
   const onSave = async () => {
     if (numberSelected == 0) {
-      console.log(
-        "Number of countries selected for a challenge must be at least one"
-      );
       setNoItemsSelected(true);
     } else {
+      await setLoading(true);
       await props.deleteChallenge();
       await postChallengeData();
+      await setLoading(false);
     }
   };
 
@@ -270,11 +269,6 @@ const EditChallenge = (props: {
           <h3 className="totalCountryText">
             Countries Selected: {numberSelected} / {countryApiList.length}
           </h3>
-          {noItemsSelected === true ? (
-            <h4>Error: at least one country must be selected.</h4>
-          ) : (
-            <></>
-          )}
         </div>
       ) : (
         <></>
@@ -294,25 +288,34 @@ const EditChallenge = (props: {
           <></>
         )}
       </ListGroup>
-      <div className="editCountryListContainer">
-        <button
-          type="button"
-          className="btn btn-dark editButton"
-          onClick={() => {
-            onSave();
-          }}
-        >
-          Save
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary editButton"
-          onClick={() => {
-            onCancel();
-          }}
-        >
-          Cancel
-        </button>
+      <div>
+        {noItemsSelected === true ? (
+          <h4 className="noCountrySelectedText">
+            Error: at least one country must be selected.
+          </h4>
+        ) : (
+          <></>
+        )}
+        <div className="editCountryListContainer">
+          <button
+            type="button"
+            className="btn btn-dark editButton"
+            onClick={() => {
+              onSave();
+            }}
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary editButton"
+            onClick={() => {
+              onCancel();
+            }}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

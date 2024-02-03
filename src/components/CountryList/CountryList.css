@@ -90,3 +90,8 @@
     border: 0 !important;
     box-shadow: none !important;
 }
+
+.noCountrySelectedText {
+    text-align: center;
+    color:#ff0000;
+}

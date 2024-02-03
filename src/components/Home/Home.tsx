@@ -43,11 +43,12 @@ const Home = (props: {
     document.getElementsByTagName("html")[0].style.overflow = "auto";
   };
 
-  const confirmChallengeDeletion = () => {
-    props.deleteChallenge();
-    props.setChallengeCreated(false);
-    setConfirmationRoute("");
+  const confirmChallengeDeletion = async () => {
+    await props.deleteChallenge();
+    await props.setChallengeCreated(false);
+    await setConfirmationRoute("");
     document.getElementsByTagName("html")[0].style.overflow = "auto";
+    await props.setLoading(false);
   };
 
   return (

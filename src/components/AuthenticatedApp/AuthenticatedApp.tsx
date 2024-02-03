@@ -4,7 +4,7 @@ import { fetchAuthSession } from "aws-amplify/auth";
 import "./AuthenticatedApp.css";
 import NewChallengeMessage from "../NewChallenge/NewChallengeMessage";
 import CountryList from "../CountryList/CountryList";
-import Home from "../Home.tsx/Home";
+import Home from "../Home/Home";
 import Loading from "../Loading/Loading";
 import EditChallenge from "../EditChallenge/EditChallenge";
 import Country from "../Country/Country";
@@ -244,7 +244,6 @@ const AuthenticatedApp = (props: {
       const response = await restOperation.response;
       await setCurrentChallenge([]);
       await deleteCurrentCountry();
-      await setLoading(false);
       console.log("DELETE challenge success: ", response);
     } catch (error) {
       console.log("DELETE challenge failed: ", error);
@@ -252,7 +251,6 @@ const AuthenticatedApp = (props: {
         "Error: Failed to delete challenge data. Please refresh and try again."
       );
       props.setRoute("error");
-      setLoading(false);
     }
   };
 
