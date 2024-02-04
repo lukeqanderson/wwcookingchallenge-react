@@ -42,7 +42,7 @@ const AuthenticatedApp = (props: {
     return true;
   };
 
-  const signOut = () => {
+  const signOut = async () => {
     props.setRoute("welcome");
     props.signOut();
   };
