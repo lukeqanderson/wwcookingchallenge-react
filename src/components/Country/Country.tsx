@@ -10,6 +10,7 @@ const Country = (props: {
   currentCountry: any;
   rollCountry: Function;
   deleteChallenge: Function;
+  newChallenge: Function;
   setRoute: Function;
   setErrorMessage: Function;
 }) => {
@@ -221,8 +222,7 @@ const Country = (props: {
                     type="button"
                     className="btn btn-dark newChallengeButton"
                     onClick={() => {
-                      props.deleteChallenge();
-                      props.setRoute("countryList");
+                      props.newChallenge();
                     }}
                   >
                     New Challenge

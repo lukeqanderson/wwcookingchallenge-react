@@ -14,6 +14,7 @@ const Home = (props: {
   setSelectedNavButton: Function;
   setChallengeCreated: Function;
   deleteChallenge: Function;
+  newChallenge: Function;
   authRender: any;
   currentChallenge: any;
   currentCountry: any;
@@ -93,8 +94,7 @@ const Home = (props: {
               type="button"
               className="btn btn-dark newChallengeButton"
               onClick={() => {
-                props.deleteChallenge();
-                props.setRoute("countryList");
+                props.newChallenge();
               }}
             >
               New Challenge

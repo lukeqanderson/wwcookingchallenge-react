@@ -256,6 +256,12 @@ const AuthenticatedApp = (props: {
     }
   };
 
+  const newChallenge = async () => {
+    await deleteChallenge();
+    await props.setRoute("countryList");
+    await setLoading(false);
+  };
+
   return (
     <div>
       {props.route === "error" ? (
@@ -281,6 +287,7 @@ const AuthenticatedApp = (props: {
           setChallengeCreated={props.setChallengeCreated}
           setSelectedNavButton={props.setSelectedNavButton}
           deleteChallenge={deleteChallenge}
+          newChallenge={newChallenge}
           authRender={authRender}
           currentChallenge={currentChallenge}
           currentCountry={currentCountry}
@@ -312,6 +319,7 @@ const AuthenticatedApp = (props: {
           setCurrentChallenge={setCurrentChallenge}
           rollCountry={rollCountry}
           deleteChallenge={deleteChallenge}
+          newChallenge={newChallenge}
           setRoute={props.setRoute}
           setErrorMessage={setErrorMessage}
         ></Country>
