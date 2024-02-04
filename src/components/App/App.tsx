@@ -68,6 +68,7 @@ const App = () => {
                     setChallengeCreated={setChallengeCreated}
                     setRoute={setRoute}
                     setSelectedNavButton={setSelectedNavButton}
+                    setLoading={setLoading}
                   ></AuthenticatedApp>
                 </main>
               </div>

@@ -17,6 +17,7 @@ const AuthenticatedApp = (props: {
   setChallengeCreated: Function;
   setRoute: Function;
   setSelectedNavButton: Function;
+  setLoading: Function;
 }) => {
   const [currentChallenge, setCurrentChallenge] = useState({});
   const [currentCountry, setCurrentCountry] = useState({});
@@ -43,8 +44,9 @@ const AuthenticatedApp = (props: {
   };
 
   const signOut = async () => {
-    props.setRoute("welcome");
-    props.signOut();
+    await props.setLoading(true);
+    await props.signOut();
+    await props.setLoading(false);
   };
 
   const getCurrentCountry = async () => {
