@@ -23,6 +23,12 @@
     padding-top: 1vh;
 }
 
+@media only screen and (max-width: 500px) {
+    .selectionButton{
+        font-size: 0.7rem;
+    }
+}
+
 .selectionButton {
     text-decoration: underline;
 }

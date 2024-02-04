@@ -28,6 +28,12 @@
     text-decoration: underline;
 }
 
+@media only screen and (max-width: 500px) {
+    .selectionButton{
+        font-size: 0.7rem;
+    }
+}
+
 .selectionButton:hover {
     opacity: 80%;
     cursor: pointer;
