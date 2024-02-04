@@ -39,8 +39,8 @@
     margin-bottom: 10vh;
     margin-left: 1vw;
     margin-right: 1vw;
-    width: max(5vw, 90px);
-    font-size: min(1rem, 2.5vw);
+    width: max(5vw, 70px);
+    font-size: min(0.8rem, 2.5vw);
 }
 
 .closeButton {
