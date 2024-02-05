@@ -9,6 +9,7 @@ import Loading from "../Loading/Loading";
 import EditChallenge from "../EditChallenge/EditChallenge";
 import Country from "../Country/Country";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
+import Settings from "../Settings/Settings";
 
 const AuthenticatedApp = (props: {
   signOut: any;
@@ -323,6 +324,15 @@ const AuthenticatedApp = (props: {
           setRoute={props.setRoute}
           setErrorMessage={setErrorMessage}
         ></Country>
+      ) : props.route === "settings" ? (
+        <Settings
+          deleteChallenge={deleteChallenge}
+          setChallengeCreated={props.setChallengeCreated}
+          setLoading={setLoading}
+          deleteCurrentCountry={deleteCurrentCountry}
+          setErrorMessage={setErrorMessage}
+          setRoute={props.setRoute}
+        ></Settings>
       ) : (
         <></>
       )}

@@ -36,6 +36,18 @@ const NavbarAuth = (props: {
               >
                 Home
               </Nav.Link>
+              {props.challengeCreated === false ? (
+                <Nav.Link
+                  className="nav-link"
+                  onClick={() => {
+                    props.setSelectedNavButton("settings", 1);
+                  }}
+                >
+                  Settings
+                </Nav.Link>
+              ) : (
+                <></>
+              )}
               {props.challengeCreated === true ? (
                 <>
                   <Nav.Link
@@ -53,6 +65,14 @@ const NavbarAuth = (props: {
                     }}
                   >
                     Edit
+                  </Nav.Link>
+                  <Nav.Link
+                    className="nav-link"
+                    onClick={() => {
+                      props.setSelectedNavButton("settings", 3);
+                    }}
+                  >
+                    Settings
                   </Nav.Link>
                 </>
               ) : (

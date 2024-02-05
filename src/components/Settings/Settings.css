@@ -1,0 +1,8 @@
+.deleteAccountButton {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5vh;
+    width: max(20vw, 200px);
+    font-size: min(1.2rem, 5vw);
+}
