@@ -92,12 +92,12 @@
     color: #007311
 }
 
-.completeIncompleteText:hover {
+.completeIncompleteIcon:hover {
     cursor: pointer;
     opacity: 60%;
 }
 
-.editCountryItemContainer:hover {
+.editCountryItemContainer:hover:not(:has(.completeIncompleteIcon:hover)) {
     cursor: pointer;
     filter: brightness(95%);
 }

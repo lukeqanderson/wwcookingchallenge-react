@@ -30,28 +30,31 @@ const EditChallenge = (props: {
   }, []);
 
   const getCountriesFromApi = async () => {
-    await fetch(
-      "https://restcountries.com/v3.1/all?fields=name,cca2,population"
-    )
+    await fetch("https://restfulcountries.com/api/v1/countries?population_from=100000", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.REACT_APP_REST_COUNTRIES_API_KEY}`,
+        "Accept": "application/json"}}
+      )
       .then((response) => response.json())
-      .then((data) => {
+      .then((apiData) => {
+        const data = apiData["data"];
         let curNumberSelected = 0;
         let validCountryArray = [];
         for (let i = 0; i < data.length; i++) {
-          if (data[i].population <= 100000) continue;
           const newCountryObject = {
-            countryCode: data[i].cca2,
-            name: data[i].name.common,
+            countryCode: data[i].iso2,
+            name: data[i].name,
             selected:
               props.currentChallenge.find(
-                (country: any) => country.country === data[i].name.common
+                (country: any) => country.country === data[i].name
               ) === undefined
                 ? false
                 : true,
             completed:
               props.currentChallenge.find(
                 (country: any) =>
-                  country.country === data[i].name.common &&
+                  country.country === data[i].name &&
                   country.completed === true
               ) === undefined
                 ? false
@@ -219,7 +222,7 @@ const EditChallenge = (props: {
   };
 
   const onSave = async () => {
-    if (numberSelected == 0) {
+    if (numberSelected === 0) {
       setNoItemsSelected(true);
     } else {
       await setLoading(true);

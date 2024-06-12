@@ -103,15 +103,21 @@ const EditCountryListItem = (props: {
               }}
             >
               {props.country.completed === true ? (
+                <span>
                 <FontAwesomeIcon
                   className="completeIcon"
                   icon={faCircleXmark}
                 />
+                <span>Mark Incomplete</span>
+                </span>
               ) : (
+                <span>
                 <FontAwesomeIcon
                   className="incompleteIcon"
                   icon={faCheckCircle}
                 />
+                <span>Mark Complete</span>
+                </span>
               )}
             </div>
           </div>
