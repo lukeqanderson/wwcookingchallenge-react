@@ -17,30 +17,27 @@
         "wwcookingchallengef6751baf": {}
       },
       "function": {
-        "wwcookingchallengeLambda": {
+        "wwcookingchallengeCountryDescLambda": {
           "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
-          "s3Key": "amplify-builds/wwcookingchallengeLambda-54373453667a64726e36-build.zip"
+          "s3Key": "amplify-builds/wwcookingchallengeCountryDescLambda-49742f72484139385149-build.zip"
         },
         "wwcookingchallengeCurrentCountryLambda": {
           "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
           "s3Key": "amplify-builds/wwcookingchallengeCurrentCountryLambda-53355136636d4c763745-build.zip"
         },
+        "wwcookingchallengeLambda": {
+          "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
+          "s3Key": "amplify-builds/wwcookingchallengeLambda-3671563346443733634f-build.zip"
+        },
         "wwcookingchallengeSingleUpdateLambda": {
           "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
           "s3Key": "amplify-builds/wwcookingchallengeSingleUpdateLambda-49526f6753433350614a-build.zip"
-        },
-        "wwcookingchallengeCountryDescLambda": {
-          "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
-          "s3Key": "amplify-builds/wwcookingchallengeCountryDescLambda-49742f72484139385149-build.zip"
         }
       },
-      "api": {
-        "wwcookingchallengeAPI": {}
-      },
       "storage": {
-        "wwcookingchallengeDDB": {},
+        "wwcookingchallengeCountryDescDDB": {},
         "wwcookingchallengeCurrentCountryDDB": {},
-        "wwcookingchallengeCountryDescDDB": {}
+        "wwcookingchallengeDDB": {}
       }
     }
   }
