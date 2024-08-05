@@ -1,19 +1,6 @@
 {
   "version": 1,
   "paths": {
-    "/currentcountry": {
-      "name": "/currentcountry",
-      "lambdaFunction": "wwcookingchallengeCurrentCountryLambda",
-      "permissions": {
-        "setting": "private",
-        "auth": [
-          "create",
-          "read",
-          "update",
-          "delete"
-        ]
-      }
-    },
     "/userdatabatch": {
       "name": "/userdatabatch",
       "lambdaFunction": "wwcookingchallengeLambda",
@@ -43,6 +30,19 @@
     "/countrydesc": {
       "name": "/countrydesc",
       "lambdaFunction": "wwcookingchallengeCountryDescLambda",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/currentcountry": {
+      "name": "/currentcountry",
+      "lambdaFunction": "wwcookingchallengeCurrentCountryLambda",
       "permissions": {
         "setting": "private",
         "auth": [

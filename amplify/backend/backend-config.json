@@ -8,14 +8,6 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "wwcookingchallengeCurrentCountryLambda"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
           "resourceName": "wwcookingchallengeLambda"
         },
         {
@@ -33,6 +25,14 @@
           ],
           "category": "function",
           "resourceName": "wwcookingchallengeCountryDescLambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "wwcookingchallengeCurrentCountryLambda"
         }
       ],
       "providerPlugin": "awscloudformation",

@@ -19,7 +19,7 @@
       "function": {
         "wwcookingchallengeLambda": {
           "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
-          "s3Key": "amplify-builds/wwcookingchallengeLambda-54373453667a64726e36-build.zip"
+          "s3Key": "amplify-builds/wwcookingchallengeLambda-3671563346443733634f-build.zip"
         },
         "wwcookingchallengeCurrentCountryLambda": {
           "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
@@ -32,7 +32,9 @@
         "wwcookingchallengeCountryDescLambda": {
           "deploymentBucketName": "amplify-wwcookingchallenge-dev-105818-deployment",
           "s3Key": "amplify-builds/wwcookingchallengeCountryDescLambda-49742f72484139385149-build.zip"
-        }
+        },
+        "wwcookingchallengeGetAltCountryDesc": {},
+        "wwcookingchallengeRestCountries": {}
       },
       "api": {
         "wwcookingchallengeAPI": {}
